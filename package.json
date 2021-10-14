@@ -106,14 +106,9 @@
     "author": "navikt",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/navikt/ds-datovelger/issues"
+        "url": "https://github.com/navikt/ds-datepicker/issues"
     },
     "homepage": "https://navikt.github.io/ds-datepicker",
-    "config": {
-        "commitizen": {
-            "path": "./node_modules/cz-conventional-changelog"
-        }
-    },
     "publishConfig": {
         "access": "public"
     }
