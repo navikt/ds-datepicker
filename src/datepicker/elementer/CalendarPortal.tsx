@@ -10,9 +10,8 @@ class CalendarPortal extends React.Component<Props> {
     render() {
         const { children, position = 'responsive' } = this.props;
         return (
-            <div
-                className={classnames('nav-datovelger__kalenderPortal', `nav-datovelger__kalenderPortal--${position}`)}>
-                <div className="nav-datovelger__kalenderPortal__content">{children}</div>
+            <div className={classnames('ds-datepicker__kalenderPortal', `ds-datepicker__kalenderPortal--${position}`)}>
+                <div className="ds-datepicker__kalenderPortal__content">{children}</div>
             </div>
         );
     }

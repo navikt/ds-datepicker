@@ -82,8 +82,8 @@ const Datepicker = ({
     };
     return (
         <DomEventContainer>
-            <div className="nav-datovelger">
-                <div className="nav-datovelger__inputContainer">
+            <div className="ds-datepicker">
+                <div className="ds-datepicker">
                     <DateInput
                         id={inputId}
                         ref={inputProps?.inputRef}

@@ -14,7 +14,7 @@ const DevPage: React.FunctionComponent = () => {
                 </span>
                 <span className="header__title">
                     <Heading level="1" size="large">
-                        nav-datovelger
+                        ds-datepicker
                     </Heading>
                 </span>
             </header>

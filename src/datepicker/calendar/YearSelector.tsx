@@ -109,7 +109,7 @@ class YearSelector extends React.Component<Props> {
         const yearSelectId = guid();
         const showYearSelect = years.length > 1;
         return (
-            <div className="nav-datovelger__yearSelector">
+            <div className="ds-datepicker__yearSelector">
                 {showYearSelect && (
                     <div className="selectContainer">
                         <label className="sr-only" htmlFor={yearSelectId}>

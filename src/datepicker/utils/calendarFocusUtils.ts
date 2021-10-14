@@ -37,7 +37,7 @@ const getMonthElement = (calendar: RefHTMLElement, focusElement: NavigationFocus
         switch (focusElement) {
             case 'previousMonth':
             case 'nextMonth':
-                el = calendar.querySelector(`.nav-datovelger__navbar__knapp--${focusElement}`);
+                el = calendar.querySelector(`.ds-datepicker__navbar__knapp--${focusElement}`);
                 break;
             case 'year':
                 el = calendar.querySelector(`select[name=year]`);

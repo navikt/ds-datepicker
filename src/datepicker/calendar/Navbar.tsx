@@ -41,8 +41,8 @@ class NavbarButton extends React.Component<NavbarButtonProps> {
                 size="small"
                 variant="tertiary"
                 id={`kalender-navbarknapp-${direction}`}
-                className={classnames('nav-datovelger__navbar__knapp', `nav-datovelger__navbar__knapp--${direction}`, {
-                    'nav-datovelger__navbar__knapp--disabled': disabled,
+                className={classnames('ds-datepicker__navbar__knapp', `ds-datepicker__navbar__knapp--${direction}`, {
+                    'ds-datepicker__navbar__knapp--disabled': disabled,
                 })}
                 onClick={(e) => (disabled ? null : onClick(e, month, direction))}
                 aria-label={label}
@@ -96,7 +96,7 @@ class Navbar extends React.Component<Props> {
                     {createCaption(this.props)}
                 </span>
                 {showYearSelector && (
-                    <div className="nav-datovelger__navbar__yearSelector">
+                    <div className="ds-datepicker__navbar__yearSelector">
                         <YearSelector
                             defaultMonth={defaultMonth}
                             maxDate={maxDate}
@@ -108,8 +108,8 @@ class Navbar extends React.Component<Props> {
                     </div>
                 )}
                 <nav
-                    className={`nav-datovelger__navbar ${
-                        showYearSelector ? 'nav-datovelger__navbar--withYearSelector' : ''
+                    className={`ds-datepicker__navbar ${
+                        showYearSelector ? 'ds-datepicker__navbar--withYearSelector' : ''
                     }`}>
                     <NavbarButton
                         month={previousMonth.toDate()}

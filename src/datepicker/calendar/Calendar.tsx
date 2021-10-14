@@ -113,7 +113,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
     }, [calendarRef, setFocusOnDateWhenOpened]);
 
     return (
-        <div ref={ref} role="dialog" aria-label="Kalender" className="nav-datovelger__kalender">
+        <div ref={ref} role="dialog" aria-label="Kalender" className="ds-datepicker__kalender">
             <DomEventContainer
                 onKeyDown={(evt) => {
                     if (evt.key === 'Tab' && evt.target) {

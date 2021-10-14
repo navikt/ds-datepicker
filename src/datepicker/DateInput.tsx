@@ -82,7 +82,7 @@ const DateInput = React.forwardRef(function DateInput(
             ref={ref}
             id={id}
             {...inputProps}
-            className={`nav-datovelger__input${
+            className={`ds-datepicker__input${
                 inputProps && inputProps['aria-invalid'] === true ? ' skjemaelement__input--harFeil' : ''
             }`}
             autoComplete="off"

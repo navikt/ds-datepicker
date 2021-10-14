@@ -22,7 +22,7 @@ class CalendarButton extends React.Component<Props> {
             <button
                 ref={(c) => (this.button = c)}
                 type="button"
-                className="nav-datovelger__kalenderknapp"
+                className="ds-datepicker__kalenderknapp"
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -31,7 +31,7 @@ class CalendarButton extends React.Component<Props> {
                 disabled={disabled}
                 aria-expanded={isOpen}>
                 <span className="sr-only">{Texts.calendarLabel}</span>
-                <span aria-hidden={true} className="nav-datovelger__kalenderknapp__icon">
+                <span aria-hidden={true} className="ds-datepicker__kalenderknapp__icon">
                     <CalendarIcon />
                 </span>
             </button>
