@@ -77,9 +77,6 @@
         "react": "17",
         "react-day-picker": "^7.4.x"
     },
-    "eslintConfig": {
-        "extends": "react-app"
-    },
     "browserslist": {
         "production": [
             ">0.2%",
