@@ -14,7 +14,7 @@ const BasicDatepicker = () => {
 };
 
 const AdvancedDatePicker = () => {
-    const [date, setDate] = useState < string > '';
+    const [date, setDate] = useState<string>;
 
     return (
         <Datepicker
