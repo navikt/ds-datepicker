@@ -6,6 +6,8 @@ https://www.npmjs.com/package/react-day-picker
 # Use
 
 ```javascript
+import '@navikt/ds-datepicker/lib/index.css';
+
 import { Datepicker, isISODateString } from '@navikt/ds-datepicker';
 
 const BasicDatepicker = () => {

@@ -8,10 +8,10 @@
         "dev": "craco start --no-cache",
         "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
         "test-w": "jest --maxWorkers=2 --config ./jest/jest.config.js --watch",
-        "build-lib": "npm-run-all clean-lib compile-lib-script copy-files-to-lib",
+        "build-lib": "npm-run-all clean-lib compile-lib-script compile-less",
         "clean-lib": "rimraf ./lib",
+        "compile-less": "lessc ./src/datepicker/styles/datepicker.less lib/index.css",
         "compile-lib-script": "tsc -p tsconfig-build-lib.json",
-        "copy-files-to-lib": "copyfiles -u 2 \"src/datepicker/**/*.less\" lib",
         "build-dev-app": "craco build",
         "predeploy": "npm run build-dev-app",
         "deploy": "gh-pages -d build"
@@ -20,6 +20,7 @@
         "@navikt/ds-css": "^0.9.1",
         "@navikt/ds-react": "^0.10.2",
         "focus-trap-react": "^8.8.2",
+        "less": "^4.1.2",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
@@ -36,7 +37,6 @@
         "@typescript-eslint/parser": "^4.0.0",
         "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
         "classnames": "^2.3.1",
-        "copyfiles": "^2.4.1",
         "core-js": "^3.18.3",
         "craco-less": "^1.20.0",
         "date-holidays": "^3.11.0",
