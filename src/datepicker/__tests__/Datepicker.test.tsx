@@ -5,12 +5,12 @@ import Datepicker from '../Datepicker';
 describe('Datepicker', () => {
     it('Should be defined', () => {
         expect(
-            shallow(<Datepicker inputProps={{ onChange: jest.fn() } as any} inputId={'inputId'} onChange={jest.fn()} />)
+            mount(<Datepicker inputProps={{ onChange: jest.fn() } as any} inputId={'inputId'} onChange={jest.fn()} />)
         ).toBeDefined();
     });
 
     it('Should render DateInput and CalendarButton', () => {
-        const wrapper = shallow(<Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={jest.fn()} />);
+        const wrapper = mount(<Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={jest.fn()} />);
         const input = wrapper.find('ForwardRef(DateInput)');
         const button = wrapper.find('CalendarButton');
         expect(input.length).toBe(1);
@@ -18,7 +18,7 @@ describe('Datepicker', () => {
     });
 
     it('Should show calendar when CalendarButton clicked', () => {
-        const wrapper = shallow(<Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={jest.fn()} />);
+        const wrapper = mount(<Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={jest.fn()} />);
         const button = wrapper.find('CalendarButton');
         button.simulate('click');
         expect(wrapper.find('CalendarPortal').length).toBe(1);
@@ -29,7 +29,7 @@ describe('Datepicker', () => {
         const wrapper = mount(
             <Datepicker inputProps={{ name: 'abc' }} inputId={'inputId'} onChange={changeFunction} />
         );
-        const input = wrapper.find('ForwardRef(DateInput)');
+        const input = wrapper.find('input');
         input.simulate('change', { target: { name: 'abc', value: '12.10.2000' } });
         input.simulate('blur');
         expect(changeFunction.mock.calls.length).toBe(1);
@@ -42,7 +42,7 @@ describe('Datepicker', () => {
         const wrapper = mount(
             <Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={changeFunction} />
         );
-        const input = wrapper.find('ForwardRef(DateInput)');
+        const input = wrapper.find('input');
         input.simulate('change', { target: { value: '1210.2000' } });
         input.simulate('blur');
         expect(changeFunction.mock.calls.length).toBe(1);
@@ -55,7 +55,7 @@ describe('Datepicker', () => {
         const wrapper = mount(
             <Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={changeFunction} />
         );
-        const input = wrapper.find('ForwardRef(DateInput)');
+        const input = wrapper.find('input');
         input.simulate('change', { target: { value: '' } });
         input.simulate('blur');
         expect(changeFunction.mock.calls.length).toBe(1);
