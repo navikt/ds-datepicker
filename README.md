@@ -3,6 +3,9 @@
 Simple datepicker basert på react-day-picker
 https://www.npmjs.com/package/react-day-picker
 
+Denne er portet fra [nav.no](https://github.com/navikt/datovelger). Endringer i navikt/datovelger
+blir ikke automatisk oppdatert her.
+
 # Use
 
 ```javascript
@@ -22,6 +25,7 @@ const AdvancedDatePicker = () => {
         <Datepicker
             locale={'nb'}
             inputId="datepicker-input"
+            inputLabel="Oppgi dato"
             value={date}
             onChange={setDate}
             inputProps={{

@@ -17,6 +17,8 @@ export type DatepickerChange = (value: DatepickerValue, isValidISODateString: bo
 
 export interface DatepickerProps {
     inputId?: string;
+    /** Skjult label, men kreves av <TextField/> i designsystemet. */
+    inputLabel: string;
     value?: string | undefined;
     onChange: DatepickerChange;
     disabled?: boolean;
@@ -37,6 +39,7 @@ export interface DatepickerProps {
 
 const Datepicker = ({
     inputId = guid(),
+    inputLabel,
     limitations,
     value,
     inputProps,
@@ -85,6 +88,7 @@ const Datepicker = ({
                 <div className="ds-datepicker">
                     <DateInput
                         id={inputId}
+                        label={inputLabel}
                         ref={inputProps?.inputRef}
                         inputProps={{ ...inputProps, disabled }}
                         dateValue={value}
