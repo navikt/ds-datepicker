@@ -15,6 +15,7 @@ export type DatepickerInputProps = Pick<
 interface Props {
     id?: string;
     dateValue?: ISODateString;
+    label: string;
     onDateChange: (date: ISODateString | string | undefined) => void;
     inputProps?: DatepickerInputProps;
 }
@@ -34,7 +35,7 @@ const isInputFormattedDateString = (value: any) => {
     }
 };
 const DateInput = React.forwardRef(function DateInput(
-    { id, dateValue = '', inputProps, onDateChange }: Props,
+    { id, dateValue = '', inputProps, onDateChange, label }: Props,
     ref: React.Ref<HTMLInputElement>
 ) {
     const [inputValue, setInputValue] = useState<InputDateString>(getInitialValue(dateValue));
@@ -77,7 +78,7 @@ const DateInput = React.forwardRef(function DateInput(
 
     return (
         <TextField
-            label="abc"
+            label={label}
             hideLabel={true}
             ref={ref}
             id={id}

@@ -1,16 +1,30 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import Datepicker from '../Datepicker';
 
 describe('Datepicker', () => {
     it('Should be defined', () => {
         expect(
-            mount(<Datepicker inputProps={{ onChange: jest.fn() } as any} inputId={'inputId'} onChange={jest.fn()} />)
+            mount(
+                <Datepicker
+                    inputProps={{ onChange: jest.fn() } as any}
+                    inputId={'inputId'}
+                    inputLabel="Oppgi dato for abc"
+                    onChange={jest.fn()}
+                />
+            )
         ).toBeDefined();
     });
 
     it('Should render DateInput and CalendarButton', () => {
-        const wrapper = mount(<Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={jest.fn()} />);
+        const wrapper = mount(
+            <Datepicker
+                inputProps={{ name: 'sdf' }}
+                inputId={'inputId'}
+                inputLabel="Oppgi dato for abc"
+                onChange={jest.fn()}
+            />
+        );
         const input = wrapper.find('ForwardRef(DateInput)');
         const button = wrapper.find('CalendarButton');
         expect(input.length).toBe(1);
@@ -18,7 +32,14 @@ describe('Datepicker', () => {
     });
 
     it('Should show calendar when CalendarButton clicked', () => {
-        const wrapper = mount(<Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={jest.fn()} />);
+        const wrapper = mount(
+            <Datepicker
+                inputProps={{ name: 'sdf' }}
+                inputId={'inputId'}
+                inputLabel="Oppgi dato for abc"
+                onChange={jest.fn()}
+            />
+        );
         const button = wrapper.find('CalendarButton');
         button.simulate('click');
         expect(wrapper.find('CalendarPortal').length).toBe(1);
@@ -27,7 +48,12 @@ describe('Datepicker', () => {
     it('Should set new date when typed into DateInput ', () => {
         const changeFunction = jest.fn();
         const wrapper = mount(
-            <Datepicker inputProps={{ name: 'abc' }} inputId={'inputId'} onChange={changeFunction} />
+            <Datepicker
+                inputProps={{ name: 'abc' }}
+                inputId={'inputId'}
+                inputLabel="Oppgi dato for abc"
+                onChange={changeFunction}
+            />
         );
         const input = wrapper.find('input');
         input.simulate('change', { target: { name: 'abc', value: '12.10.2000' } });
@@ -40,7 +66,12 @@ describe('Datepicker', () => {
     it('Should keep invalid date string in input when invalid formatted date is typed into DateInput ', () => {
         const changeFunction = jest.fn();
         const wrapper = mount(
-            <Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={changeFunction} />
+            <Datepicker
+                inputProps={{ name: 'sdf' }}
+                inputId={'inputId'}
+                inputLabel="Oppgi dato for abc"
+                onChange={changeFunction}
+            />
         );
         const input = wrapper.find('input');
         input.simulate('change', { target: { value: '1210.2000' } });
@@ -53,7 +84,12 @@ describe('Datepicker', () => {
     it('Should trigger onChange with "" when empty string typed into DateInput ', () => {
         const changeFunction = jest.fn();
         const wrapper = mount(
-            <Datepicker inputProps={{ name: 'sdf' }} inputId={'inputId'} onChange={changeFunction} />
+            <Datepicker
+                inputProps={{ name: 'sdf' }}
+                inputId={'inputId'}
+                inputLabel="Oppgi dato for abc"
+                onChange={changeFunction}
+            />
         );
         const input = wrapper.find('input');
         input.simulate('change', { target: { value: '' } });
@@ -68,6 +104,7 @@ describe('Datepicker', () => {
         const wrapper = mount(
             <Datepicker
                 inputProps={{ name: 'sdf' }}
+                inputLabel="Oppgi dato for abc"
                 inputId={'inputId'}
                 onChange={changeFunction}
                 value={'2020-06-20'}
