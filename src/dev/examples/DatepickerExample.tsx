@@ -49,6 +49,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                 </label>
                 <Datepicker
                     inputId="datovelger-input"
+                    inputLabel="Hvilken dato ønsker du?"
                     value={date}
                     onChange={setDate}
                     inputProps={{
@@ -135,12 +136,22 @@ const DatepickerExample: React.FunctionComponent = () => {
                 <Box margin="m">
                     <div style={{ display: 'inline-block' }}>
                         <label htmlFor={'date-range-from'}>First pickable date</label>
-                        <Datepicker inputId={'date-range-from'} onChange={(e) => setMinDate(e)} value={minDate} />
+                        <Datepicker
+                            inputId={'date-range-from'}
+                            inputLabel="Hvilken dato ønsker du?"
+                            onChange={(e) => setMinDate(e)}
+                            value={minDate}
+                        />
                     </div>
                     {' - '}
                     <div style={{ display: 'inline-block' }}>
                         <label htmlFor={'date-range-to'}>Last pickable date</label>
-                        <Datepicker inputId={'date-range-to'} onChange={(e) => setMaxDate(e)} value={maxDate} />
+                        <Datepicker
+                            inputId={'date-range-to'}
+                            inputLabel="Hvilken dato ønsker du?"
+                            onChange={(e) => setMaxDate(e)}
+                            value={maxDate}
+                        />
                     </div>
                 </Box>
 

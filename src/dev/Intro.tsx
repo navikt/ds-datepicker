@@ -9,7 +9,7 @@ const Intro: React.FunctionComponent = () => (
         <PageIntro title="ds-datepicker">
             <h2>Simple datepicker based on react-day-picker</h2>
             <p>
-                <Link href="https://github.com/navikt/datovelger">GitHub repository</Link>
+                <Link href="https://github.com/navikt/ds-datepicker">GitHub repository</Link>
             </p>
         </PageIntro>
         <Ingress style={{ marginBottom: '.5rem' }}>Example:</Ingress>
