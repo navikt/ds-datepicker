@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/ds-datepicker/static/css/main.b357a804.chunk.css",
-    "main.js": "/ds-datepicker/static/js/main.8ad9c970.chunk.js",
-    "main.js.map": "/ds-datepicker/static/js/main.8ad9c970.chunk.js.map",
-    "runtime-main.js": "/ds-datepicker/static/js/runtime-main.b9939ed8.js",
-    "runtime-main.js.map": "/ds-datepicker/static/js/runtime-main.b9939ed8.js.map",
-    "static/css/2.4dee8034.chunk.css": "/ds-datepicker/static/css/2.4dee8034.chunk.css",
-    "static/js/2.20331cb0.chunk.js": "/ds-datepicker/static/js/2.20331cb0.chunk.js",
-    "static/js/2.20331cb0.chunk.js.map": "/ds-datepicker/static/js/2.20331cb0.chunk.js.map",
+    "main.css": "/ds-datepicker/static/css/main.b17e5974.chunk.css",
+    "main.js": "/ds-datepicker/static/js/main.4b318798.chunk.js",
+    "main.js.map": "/ds-datepicker/static/js/main.4b318798.chunk.js.map",
+    "runtime-main.js": "/ds-datepicker/static/js/runtime-main.791f9773.js",
+    "runtime-main.js.map": "/ds-datepicker/static/js/runtime-main.791f9773.js.map",
+    "static/css/2.fe98bb59.chunk.css": "/ds-datepicker/static/css/2.fe98bb59.chunk.css",
+    "static/js/2.257f5fb4.chunk.js": "/ds-datepicker/static/js/2.257f5fb4.chunk.js",
+    "static/js/2.257f5fb4.chunk.js.map": "/ds-datepicker/static/js/2.257f5fb4.chunk.js.map",
     "index.html": "/ds-datepicker/index.html",
-    "static/css/2.4dee8034.chunk.css.map": "/ds-datepicker/static/css/2.4dee8034.chunk.css.map",
-    "static/css/main.b357a804.chunk.css.map": "/ds-datepicker/static/css/main.b357a804.chunk.css.map",
-    "static/js/2.20331cb0.chunk.js.LICENSE.txt": "/ds-datepicker/static/js/2.20331cb0.chunk.js.LICENSE.txt"
+    "static/css/2.fe98bb59.chunk.css.map": "/ds-datepicker/static/css/2.fe98bb59.chunk.css.map",
+    "static/css/main.b17e5974.chunk.css.map": "/ds-datepicker/static/css/main.b17e5974.chunk.css.map",
+    "static/js/2.257f5fb4.chunk.js.LICENSE.txt": "/ds-datepicker/static/js/2.257f5fb4.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.b9939ed8.js",
-    "static/css/2.4dee8034.chunk.css",
-    "static/js/2.20331cb0.chunk.js",
-    "static/css/main.b357a804.chunk.css",
-    "static/js/main.8ad9c970.chunk.js"
+    "static/js/runtime-main.791f9773.js",
+    "static/css/2.fe98bb59.chunk.css",
+    "static/js/2.257f5fb4.chunk.js",
+    "static/css/main.b17e5974.chunk.css",
+    "static/js/main.4b318798.chunk.js"
   ]
 }
