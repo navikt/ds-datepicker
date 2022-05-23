@@ -82,10 +82,12 @@ const Datepicker = ({
         setCalendarIsVisible(false);
         onChange(value, isISODateString(value));
     };
+
+    const isInvalid = inputProps && inputProps['aria-invalid'] === true;
     return (
         <DomEventContainer>
-            <div className="ds-datepicker">
-                <div className="ds-datepicker">
+            <>
+                <div className={`ds-datepicker${isInvalid ? ' ds-datepicker--error' : ''}`}>
                     <DateInput
                         id={inputId}
                         label={inputLabel}
@@ -121,7 +123,7 @@ const Datepicker = ({
                         />
                     </CalendarPortal>
                 )}
-            </div>
+            </>
         </DomEventContainer>
     );
 };

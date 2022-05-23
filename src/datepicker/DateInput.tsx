@@ -76,6 +76,8 @@ const DateInput = React.forwardRef(function DateInput(
         }
     }, [dateValue]);
 
+    const isInvalid = inputProps && inputProps['aria-invalid'] === true;
+
     return (
         <TextField
             label={label}
@@ -83,9 +85,7 @@ const DateInput = React.forwardRef(function DateInput(
             ref={ref}
             id={id}
             {...inputProps}
-            className={`ds-datepicker__input${
-                inputProps && inputProps['aria-invalid'] === true ? ' skjemaelement__input--harFeil' : ''
-            }`}
+            error={isInvalid}
             autoComplete="off"
             autoCorrect="off"
             type="text"

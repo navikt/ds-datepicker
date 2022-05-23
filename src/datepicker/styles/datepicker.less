@@ -15,6 +15,12 @@
     position: relative;
     display: inline-block;
 
+    &--error {
+        .ds-datepicker__kalenderknapp {
+            border-color: var(--navds-alert-color-error-border);
+        }
+    }
+
     .sr-only {
         // Ensure it is present
         position: absolute;
