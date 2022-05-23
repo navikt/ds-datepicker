@@ -1,6 +1,6 @@
 {
     "name": "@navikt/ds-datepicker",
-    "version": "2.1.1-beta.0",
+    "version": "2.1.1-beta.1",
     "description": "Datepicker with input and calendar. Based on @navikt/ds-react and @navikt/ds-css",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",

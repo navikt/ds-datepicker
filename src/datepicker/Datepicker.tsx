@@ -10,6 +10,7 @@ import { usePrevious } from './hooks/usePrevious';
 import { CalendarPlacement, DatepickerLimitations, DatepickerLocales, ISODateString } from './types';
 import { isISODateString } from './types/typeGuards';
 import { getDefaultMonth, getInvalidDates, isSameDate } from './utils';
+import './styles/datepicker.less';
 
 export type DatepickerValue = ISODateString | string;
 
