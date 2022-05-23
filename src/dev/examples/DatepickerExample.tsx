@@ -24,6 +24,7 @@ const DatepickerExample: React.FunctionComponent = () => {
     const [date, setDate] = useState<DatepickerValue>('');
     const [showYearSelector, setShowYearSelector] = useState<boolean>(false);
     const [showWeekNumbers, setShowWeekNumbers] = useState<boolean>(false);
+    const [disabled, setDisabled] = useState<boolean>(false);
     const [showPublicHolidays, setShowPublicHolidays] = useState<boolean>(true);
     const [initialMonth, setInitialMonth] = useState<Date | undefined>();
     const [locale, setLocale] = useState<DatepickerLocales>('nb');
@@ -56,6 +57,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                         name: 'dateInput',
                         'aria-invalid': date !== '' && isISODateString(date) === false,
                     }}
+                    disabled={disabled}
                     setFocusOnDateWhenOpened={true}
                     locale={locale}
                     calendarSettings={{ showWeekNumbers }}
@@ -158,7 +160,7 @@ const DatepickerExample: React.FunctionComponent = () => {
 
                 <Box margin="xl">
                     <fieldset>
-                        <legend>Presentation properties</legend>
+                        <legend>Other properties</legend>
                         <div style={{ padding: '1rem' }}>
                             <Box margin="none">
                                 <Checkbox
@@ -169,6 +171,16 @@ const DatepickerExample: React.FunctionComponent = () => {
                                             <code>showYearSelector</code>:
                                         </div>{' '}
                                         Show dropdowns for year and month
+                                    </div>
+                                </Checkbox>
+                            </Box>
+                            <Box margin="none">
+                                <Checkbox checked={disabled} onChange={() => setDisabled(!disabled)}>
+                                    <div>
+                                        <div>
+                                            <code>disabled</code>:
+                                        </div>{' '}
+                                        disable datepicker
                                     </div>
                                 </Checkbox>
                             </Box>
