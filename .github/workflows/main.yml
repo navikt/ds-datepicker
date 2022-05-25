@@ -23,8 +23,8 @@ jobs:
           uses: actions/cache@v3
           with:
             path: node_modules
-            key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: ${{ runner.OS }}-npm-cache-
+            key: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-
         - name: Use Node.js ${{matrix.node-version}}
           uses: actions/setup-node@v3
           with:
@@ -40,31 +40,36 @@ jobs:
       name: Build and deploy
       if: github.ref == 'refs/heads/master'
       runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [16.15.0]
+
       needs: [test]
       steps:
+        - uses: actions/setup-node@v3
+          with:
+            node-version: "16.15.0"
+            registry-url: "https://npm.pkg.github.com"
+            scope: "@navikt"
         - name: Checkout code
           uses: actions/checkout@v3
         - name: Cache NPM dependencies
           uses: actions/cache@v3
           with:
             path: node_modules
-            key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: ${{ runner.OS }}-npm-cache-
-        - name: Setup node for deployment
-          uses: actions/setup-node@v3
-          with:
-            node-version: 16.15.0
-            registry-url: "https://npm.pkg.github.com"
-            scope: "@navikt"
+            key: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-
+        - name: temporarily remove .npmrc to be able to deploy to GPR
+          run: rm .npmrc
+        - name: install deps
+          run: npm ci
         - name: build library
-          run: |
-            npm ci
-            npm run build-lib
+          run: npm run build-lib
         - name: deploy to GPR
           run: npm publish
           env:
             NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    
     increment-version:
       name: Increment version and push commit
       if: github.ref == 'refs/heads/master'
