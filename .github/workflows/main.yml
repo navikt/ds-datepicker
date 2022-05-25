@@ -59,7 +59,7 @@ jobs:
         - name: build library
           run: |
             npm ci
-            npm build-lib
+            npm run build-lib
         - name: deploy to GPR
           run: npm publish
           env:
