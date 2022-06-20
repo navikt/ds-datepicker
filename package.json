@@ -1,26 +1,32 @@
 {
-    "name": "@navikt/ds-datepicker",
-    "version": "2.1.5",
+    "author": "navikt",
     "description": "Datepicker with input and calendar. Based on @navikt/ds-react and @navikt/ds-css",
+    "homepage": "https://navikt.github.io/ds-datepicker",
+    "license": "MIT",
     "main": "lib/index.js",
+    "name": "@navikt/ds-datepicker",
     "types": "lib/index.d.ts",
-    "scripts": {
-        "dev": "craco start --no-cache",
-        "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
-        "test-w": "jest --maxWorkers=2 --config ./jest/jest.config.js --watch",
-        "build-lib": "npm-run-all clean-lib compile-lib-script compile-less",
-        "clean-lib": "rimraf ./lib",
-        "compile-less": "lessc ./src/datepicker/styles/datepicker.less lib/index.css",
-        "compile-lib-script": "tsc -p tsconfig-build-lib.json",
-        "build-dev-app": "craco build",
-        "predeploy": "npm run build-dev-app",
-        "deploy": "gh-pages -d build"
+    "version": "2.1.6",
+    "browserslist": {
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ],
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ]
+    },
+    "bugs": {
+        "url": "https://github.com/navikt/ds-datepicker/issues"
     },
     "dependencies": {
-        "@navikt/ds-css": "^0.16.15",
-        "@navikt/ds-react": "^0.17.19",
+        "@navikt/ds-css": "^0.18.15",
+        "@navikt/ds-react": "^0.19.14",
         "focus-trap-react": "^8.8.2",
-        "less": "^4.1.2",
+        "less": "^4.1.3",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
@@ -70,6 +76,13 @@
         "typescript": "^4.6.3",
         "typescript-eslint": "^0.0.1-alpha.0"
     },
+    "directories": {
+        "lib": "lib"
+    },
+    "files": [
+        "package.json",
+        "/lib"
+    ],
     "peerDependencies": {
         "@navikt/ds-css": "^0.16.15",
         "@navikt/ds-react": "^0.17.19",
@@ -78,36 +91,23 @@
         "react": "^17.x",
         "react-day-picker": "^7.4.x"
     },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
-    },
-    "files": [
-        "package.json",
-        "/lib"
-    ],
-    "directories": {
-        "lib": "lib"
+    "publishConfig": {
+        "access": "public"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/navikt/ds-datepicker.git"
     },
-    "author": "navikt",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/navikt/ds-datepicker/issues"
-    },
-    "homepage": "https://navikt.github.io/ds-datepicker",
-    "publishConfig": {
-        "access": "public"
+    "scripts": {
+        "build-dev-app": "craco build",
+        "build-lib": "npm-run-all clean-lib compile-lib-script compile-less",
+        "clean-lib": "rimraf ./lib",
+        "compile-less": "lessc ./src/datepicker/styles/datepicker.less lib/index.css",
+        "compile-lib-script": "tsc -p tsconfig-build-lib.json",
+        "deploy": "gh-pages -d build",
+        "dev": "craco start --no-cache",
+        "predeploy": "npm run build-dev-app",
+        "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
+        "test-w": "jest --maxWorkers=2 --config ./jest/jest.config.js --watch"
     }
 }
