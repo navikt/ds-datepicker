@@ -1,4 +1,3 @@
-
 name: Main
 
 on:
@@ -8,31 +7,81 @@ on:
       - ".gitignore"
       - "LICENCE"
       - "CODEOWNERS"
-    branches:
-
 
 jobs:
-    build:
-      name: Build and run jest
+    test:
+      name: Run tests
       runs-on: ubuntu-latest
       strategy:
         matrix:
-          node-version: [12.16.1] # => lts/erbium
+          node-version: [12.16.1, 16.15.0]
 
       steps:
         - name: Checkout code
-          uses: actions/checkout@v1
+          uses: actions/checkout@v3
         - name: Cache NPM dependencies
-          uses: actions/cache@v1
+          uses: actions/cache@v3
           with:
             path: node_modules
-            key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: ${{ runner.OS }}-npm-cache-
+            key: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-
         - name: Use Node.js ${{matrix.node-version}}
-          uses: actions/setup-node@v1
+          uses: actions/setup-node@v3
           with:
             node-version: ${{matrix.node-version}}
+            registry-url: "https://npm.pkg.github.com"
+            scope: "@navikt"
         - name: run Jest tests
           run: |
             npm ci
             npm run test
+
+    build-and-deploy:
+      name: Build and deploy
+      if: github.ref == 'refs/heads/master'
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [16.15.0]
+
+      needs: [test]
+      steps:
+        - uses: actions/setup-node@v3
+          with:
+            node-version: "16.15.0"
+            registry-url: "https://npm.pkg.github.com"
+            scope: "@navikt"
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Cache NPM dependencies
+          uses: actions/cache@v3
+          with:
+            path: node_modules
+            key: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: ${{ runner.OS }}-${{matrix.node-version}}-npm-cache-
+        - name: temporarily remove .npmrc to be able to deploy to GPR
+          run: rm .npmrc
+        - name: install deps
+          run: npm ci
+        - name: build library
+          run: npm run build-lib
+        - name: deploy to GPR
+          run: npm publish
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    increment-version:
+      name: Increment version and push commit
+      if: github.ref == 'refs/heads/master'
+      runs-on: ubuntu-latest
+      needs: [build-and-deploy]
+      steps:
+         - uses: actions/checkout@v3
+         - uses: actions/setup-node@v3
+         - name: Setup github connection for auth
+           run: |
+              git config --global user.email "github-actions[bot]@users.noreply.github.com"
+              git config --global user.name "github-actions[bot]"
+              git remote set-url origin https://github-actions[bot]:$NAV_DS_TOKEN@github.com/$GITHUB_REPOSITORY.git
+         - run: npm version patch -m "[skip ci] set version to %s"
+         - run: git push

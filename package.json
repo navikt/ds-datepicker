@@ -1,12 +1,11 @@
 {
-    "author": "navikt",
     "description": "Datepicker with input and calendar. Based on @navikt/ds-react and @navikt/ds-css",
     "homepage": "https://navikt.github.io/ds-datepicker",
     "license": "MIT",
     "main": "lib/index.js",
     "name": "@navikt/ds-datepicker",
     "types": "lib/index.d.ts",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "browserslist": {
         "development": [
             "last 1 chrome version",
