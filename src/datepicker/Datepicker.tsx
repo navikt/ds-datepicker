@@ -1,9 +1,12 @@
+import { TextFieldProps } from '@navikt/ds-react';
+import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
 import React, { useEffect, useRef, useState } from 'react';
 import { DayPickerProps } from 'react-day-picker';
 import { v4 as guid } from 'uuid';
 import DomEventContainer from './common/DomEventContainer';
 import Calendar from './calendar/Calendar';
-import DateInput, { DatepickerInputProps } from './DateInput';
+import DateInput from './DateInput';
+import DsFormFieldWrapper from './DsFormFieldWrapper';
 import CalendarButton from './elementer/CalendarButton';
 import CalendarPortal from './elementer/CalendarPortal';
 import { usePrevious } from './hooks/usePrevious';
@@ -15,20 +18,18 @@ export type DatepickerValue = ISODateString | string;
 
 export type DatepickerChange = (value: DatepickerValue, isValidISODateString: boolean) => void;
 
-export interface DatepickerProps {
-    inputId?: string;
-    /** Skjult label, men kreves av <TextField/> i designsystemet. */
-    inputLabel: string;
+export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 'size'> {
+    inputRef?: React.Ref<HTMLInputElement>;
+    label: string;
     value?: string | undefined;
+    inputName: string;
     onChange: DatepickerChange;
-    disabled?: boolean;
     limitations?: DatepickerLimitations;
     calendarSettings?: {
         showWeekNumbers?: boolean;
         position?: CalendarPlacement;
     };
     locale?: DatepickerLocales;
-    inputProps?: DatepickerInputProps & { inputRef?: React.Ref<HTMLInputElement> };
     allowInvalidDateSelection?: boolean;
     showYearSelector?: boolean;
     dayPickerProps?: Omit<DayPickerProps, 'disabledDays'>;
@@ -37,23 +38,27 @@ export interface DatepickerProps {
     calendarDateStringFilter?: (value: string | undefined) => string | undefined;
 }
 
-const Datepicker = ({
-    inputId = guid(),
-    inputLabel,
-    limitations,
-    value,
-    inputProps,
-    calendarSettings,
-    disabled,
-    allowInvalidDateSelection,
-    locale = 'nb',
-    showYearSelector,
-    onChange,
-    dayPickerProps,
-    setFocusOnDateWhenOpened,
-    allowNavigationToDisabledMonths = false,
-    calendarDateStringFilter,
-}: DatepickerProps) => {
+const Datepicker = (props: DatepickerProps) => {
+    const {
+        limitations,
+        value,
+        disabled,
+        size,
+        error,
+        errorId,
+        inputRef,
+        inputName,
+        calendarSettings,
+        allowInvalidDateSelection,
+        locale = 'nb',
+        showYearSelector,
+        onChange,
+        dayPickerProps,
+        setFocusOnDateWhenOpened,
+        allowNavigationToDisabledMonths = false,
+        calendarDateStringFilter,
+    } = props;
+
     const [activeMonth, setActiveMonth] = useState<Date>(getDefaultMonth(value, limitations, dayPickerProps));
     const [calendarIsVisible, setCalendarIsVisible] = useState<boolean>(false);
     const prevValue = usePrevious(value);
@@ -83,25 +88,30 @@ const Datepicker = ({
         onChange(value, isISODateString(value));
     };
 
-    const isInvalid = inputProps && inputProps['aria-invalid'] === true;
+    const inputId = props.id || guid();
     return (
         <DomEventContainer>
-            <div className={`ds-datepicker${isInvalid ? ' ds-datepicker--error' : ''}`}>
-                <div>
-                    <DateInput
-                        id={inputId}
-                        label={inputLabel}
-                        ref={inputProps?.inputRef}
-                        inputProps={{ ...inputProps, disabled }}
-                        dateValue={value}
-                        onDateChange={setDate}
-                    />
-                    <CalendarButton
-                        disabled={disabled}
-                        onClick={() => setCalendarIsVisible(!calendarIsVisible)}
-                        isOpen={calendarIsVisible}
-                    />
-                </div>
+            <div className="ds-datepicker">
+                <DsFormFieldWrapper {...props} id={inputId}>
+                    <div style={{ position: 'relative' }}>
+                        <DateInput
+                            ref={inputRef}
+                            id={inputId}
+                            name={inputName}
+                            value={value}
+                            size={size}
+                            error={error}
+                            errorId={errorId}
+                            onDateChange={setDate}
+                        />
+                        <CalendarButton
+                            disabled={disabled}
+                            size={props.size}
+                            isOpen={calendarIsVisible}
+                            onClick={() => setCalendarIsVisible(!calendarIsVisible)}
+                        />
+                    </div>
+                </DsFormFieldWrapper>
                 {calendarIsVisible && (
                     <CalendarPortal position={calendarSettings?.position}>
                         <Calendar
