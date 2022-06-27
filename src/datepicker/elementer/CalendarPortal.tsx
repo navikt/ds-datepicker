@@ -8,8 +8,8 @@ interface Props {
 
 const CalendarPortal: React.FunctionComponent<Props> = ({ children, position = 'responsive' }) => {
     return (
-        <div className={classnames('ds-datepicker__kalenderPortal', `ds-datepicker__kalenderPortal--${position}`)}>
-            <div className="ds-datepicker__kalenderPortal__content">{children}</div>
+        <div className={classnames('ds-datepicker__calendarPortal', `ds-datepicker__calendarPortal--${position}`)}>
+            <div className="ds-datepicker__calendarPortal__content">{children}</div>
         </div>
     );
 };

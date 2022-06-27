@@ -121,29 +121,29 @@ const Datepicker = (props: DatepickerProps) => {
                             isOpen={calendarIsVisible}
                             onClick={() => setCalendarIsVisible(!calendarIsVisible)}
                         />
+                        {calendarIsVisible && (
+                            <CalendarPortal position={calendarSettings?.position}>
+                                <Calendar
+                                    ref={calendarRef}
+                                    locale={locale}
+                                    showWeekNumbers={calendarSettings?.showWeekNumbers}
+                                    dateString={calendarDateStringFilter ? calendarDateStringFilter(value) : value}
+                                    month={activeMonth}
+                                    minDateString={limitations && limitations.minDate}
+                                    maxDateString={limitations && limitations.maxDate}
+                                    unavailableDates={limitations ? getInvalidDates(limitations) : undefined}
+                                    onSelect={setDate}
+                                    onClose={() => setCalendarIsVisible(false)}
+                                    allowInvalidDateSelection={allowInvalidDateSelection}
+                                    dayPickerProps={dayPickerProps}
+                                    showYearSelector={showYearSelector}
+                                    setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
+                                    allowNavigationToDisabledMonths={allowNavigationToDisabledMonths}
+                                />
+                            </CalendarPortal>
+                        )}
                     </div>
                 </DsFormFieldWrapper>
-                {calendarIsVisible && (
-                    <CalendarPortal position={calendarSettings?.position}>
-                        <Calendar
-                            ref={calendarRef}
-                            locale={locale}
-                            showWeekNumbers={calendarSettings?.showWeekNumbers}
-                            dateString={calendarDateStringFilter ? calendarDateStringFilter(value) : value}
-                            month={activeMonth}
-                            minDateString={limitations && limitations.minDate}
-                            maxDateString={limitations && limitations.maxDate}
-                            unavailableDates={limitations ? getInvalidDates(limitations) : undefined}
-                            onSelect={setDate}
-                            onClose={() => setCalendarIsVisible(false)}
-                            allowInvalidDateSelection={allowInvalidDateSelection}
-                            dayPickerProps={dayPickerProps}
-                            showYearSelector={showYearSelector}
-                            setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
-                            allowNavigationToDisabledMonths={allowNavigationToDisabledMonths}
-                        />
-                    </CalendarPortal>
-                )}
             </div>
         </DomEventContainer>
     );
