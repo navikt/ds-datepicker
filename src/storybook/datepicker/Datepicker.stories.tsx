@@ -4,7 +4,7 @@ import StoryDecorator from '../decorator/StoryDecorator';
 import DatepickerExample from './DatepickerExample';
 
 export default {
-    title: 'Form/Datepicker',
+    title: 'Datepicker',
     component: DatepickerExample,
     decorators: [
         (Story) => (

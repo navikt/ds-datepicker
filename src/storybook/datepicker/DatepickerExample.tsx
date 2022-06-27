@@ -5,8 +5,8 @@ import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
 import { DatepickerDateRange, DatepickerLocales } from '../../datepicker/types';
 import { isISODateString } from '../../datepicker/types/typeGuards';
 import { ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
-import Box from '../../dev/components/box/Box';
-import { holidays } from '../../dev/utils/holidays';
+import Box from '../components/box/Box';
+import { holidays } from '../utils/holidays';
 
 const renderDate = (dateString = ''): string => {
     if (dateString === '') {

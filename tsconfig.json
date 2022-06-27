@@ -19,7 +19,7 @@
         "declaration": true,
         "moduleResolution": "node",
         "noEmit": true,
-        "typeRoots": ["src/dev/@types", "node_modules/@types"],
+        "typeRoots": ["node_modules/@types"],
         "baseUrl": "./src",
         "noFallthroughCasesInSwitch": true
     },
