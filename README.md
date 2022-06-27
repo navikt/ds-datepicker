@@ -24,10 +24,13 @@ const AdvancedDatePicker = () => {
     return (
         <Datepicker
             locale={'nb'}
-            inputId="datepicker-input"
-            inputLabel="Oppgi dato"
+            id="datepicker-input"
+            label="Oppgi dato"
             value={date}
+            inputName="inputName"
             onChange={setDate}
+            error="En feilmelding"
+            disabled={false}
             inputProps={{
                 name: 'dateInput',
                 'aria-invalid': date !== '' && isISODateString(date) === false,
