@@ -50,10 +50,10 @@ const AdvancedDatePicker = () => {
 };
 ```
 
-# Kjøre eksempel-app
+# Storybook
 
-Starter app med enkelt eksempel
+Starter storybook med enkelt eksempel som viser noe av funksjonaliteten
 
 ```
-npm run dev
+npm run storybook
 ```
