@@ -32,8 +32,9 @@
             &.DayPicker-Day--disabled,
             .DayPicker-Day--outside {
                 &:focus {
-                    .focusOutline--disabled();
                     .dayZindexFix();
+                    box-shadow: none;
+                    outline: 2px dotted @fokusFarge;
                 }
             }
         }
@@ -86,7 +87,7 @@
             font-size: 1rem;
             font-style: italic;
         }
-        &-Caption  {
+        &-Caption {
             padding: 0 2rem;
             text-align: center;
             text-transform: capitalize;

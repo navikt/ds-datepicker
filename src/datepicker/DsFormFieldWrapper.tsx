@@ -8,13 +8,15 @@ export interface DsFormFieldWrapperProps extends FormFieldProps, Pick<TextFieldP
      * Content
      */
     children: React.ReactNode;
+    /**
+     * FormFieldProps
+     */
+    formFieldProps: ReturnType<typeof useFormField>;
 }
 
 export const DsFormFieldWrapper = (props: DsFormFieldWrapperProps) => {
-    const { inputProps, errorId, showErrorMsg, hasError, size, inputDescriptionId } = useFormField(props, 'textField');
-    const { label, description, hideLabel = false, children } = props;
-
-    // const isInvalid = inputProps && inputProps['aria-invalid'] === true;
+    const { inputProps, errorId, showErrorMsg, hasError, size, inputDescriptionId } = props.formFieldProps;
+    const { label, description, hideLabel = false, children, error } = props;
 
     return (
         <div
@@ -60,7 +62,7 @@ export const DsFormFieldWrapper = (props: DsFormFieldWrapperProps) => {
             )}
             {children}
             <div className="navds-form-field__error" id={errorId} aria-relevant="additions removals" aria-live="polite">
-                {showErrorMsg && <ErrorMessage size={size}>{props.error}</ErrorMessage>}
+                {showErrorMsg && <ErrorMessage size={size}>{error}</ErrorMessage>}
             </div>
         </div>
     );

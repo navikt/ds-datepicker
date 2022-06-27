@@ -49,7 +49,7 @@ const DatepickerExample: React.FunctionComponent = () => {
             <Box margin="xl">
                 <Datepicker
                     id="datovelger-input"
-                    label="Hvilken dato ønsker du?"
+                    label="Choose a date"
                     value={date}
                     onChange={setDate}
                     inputName="dateInput"

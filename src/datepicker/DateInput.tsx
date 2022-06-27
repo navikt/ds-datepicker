@@ -1,5 +1,5 @@
 import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
-import React, { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FocusEvent, HTMLAttributes, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { InputDateString, ISODateString } from './types';
 import {
@@ -7,8 +7,9 @@ import {
     INVALID_DATE_VALUE,
     ISODateStringToInputDateString,
 } from './utils/dateFormatUtils';
+import { omit } from '@navikt/ds-react';
 
-export interface DatepickerInputProps extends FormFieldProps {
+export interface DatepickerInputProps extends FormFieldProps, HTMLAttributes<HTMLInputElement> {
     name: string;
     value?: ISODateString;
     onDateChange: (date: ISODateString | string | undefined) => void;
@@ -29,7 +30,7 @@ const isInputFormattedDateString = (value: any) => {
     }
 };
 const DateInput = React.forwardRef(function DateInput(
-    { id, value = '', size, onDateChange, name }: DatepickerInputProps,
+    { id, value = '', size, onDateChange, name, ...rest }: DatepickerInputProps,
     ref: React.Ref<HTMLInputElement>
 ) {
     const [inputValue, setInputValue] = useState<InputDateString>(getInitialValue(value));
@@ -85,6 +86,7 @@ const DateInput = React.forwardRef(function DateInput(
             onKeyDown={onKeyDown}
             autoComplete="off"
             autoCorrect="off"
+            {...omit(rest, ['errorId', 'error'])}
         />
     );
 });

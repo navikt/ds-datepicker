@@ -1,6 +1,6 @@
 import { TextFieldProps } from '@navikt/ds-react';
-import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
-import React, { useEffect, useRef, useState } from 'react';
+import { FormFieldProps, useFormField } from '@navikt/ds-react/esm/form/useFormField';
+import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { DayPickerProps } from 'react-day-picker';
 import { v4 as guid } from 'uuid';
 import DomEventContainer from './common/DomEventContainer';
@@ -23,6 +23,7 @@ export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 's
     label: string;
     value?: string | undefined;
     inputName: string;
+    inputProps?: Omit<HTMLAttributes<HTMLInputElement>, 'name' | 'id' | 'value'> & { ['data-testid']?: string };
     onChange: DatepickerChange;
     limitations?: DatepickerLimitations;
     calendarSettings?: {
@@ -40,14 +41,17 @@ export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 's
 
 const Datepicker = (props: DatepickerProps) => {
     const {
-        limitations,
+        label,
         value,
+        description,
+        limitations,
         disabled,
         size,
         error,
         errorId,
         inputRef,
         inputName,
+        inputProps,
         calendarSettings,
         allowInvalidDateSelection,
         locale = 'nb',
@@ -89,14 +93,21 @@ const Datepicker = (props: DatepickerProps) => {
     };
 
     const inputId = props.id || guid();
+    const formFieldProps = useFormField(props, 'textField');
     return (
         <DomEventContainer>
             <div className="ds-datepicker">
-                <DsFormFieldWrapper {...props} id={inputId}>
+                <DsFormFieldWrapper
+                    label={label}
+                    description={description}
+                    formFieldProps={formFieldProps}
+                    error={error}
+                    id={inputId}>
                     <div style={{ position: 'relative' }}>
                         <DateInput
                             ref={inputRef}
-                            id={inputId}
+                            {...formFieldProps.inputProps}
+                            {...inputProps}
                             name={inputName}
                             value={value}
                             size={size}

@@ -135,6 +135,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                         focusTrapOptions={{
                             clickOutsideDeactivates: true,
                             onDeactivate: onClose,
+                            fallbackFocus: 'body',
                         }}>
                         <DayPicker
                             locale={locale}
