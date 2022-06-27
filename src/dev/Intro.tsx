@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from './components/box/Box';
 import PageIntro from './components/page-intro/PageIntro';
-import DatepickerExample from './examples/DatepickerExample';
+import DatepickerExample from '../storybook/datepicker/DatepickerExample';
 import { Link, Alert, Ingress } from '@navikt/ds-react';
 
 const Intro: React.FunctionComponent = () => (
