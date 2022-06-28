@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { TextFieldProps } from '@navikt/ds-react';
+import { FormFieldProps, useFormField } from '@navikt/ds-react/esm/form/useFormField';
+import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { DayPickerProps } from 'react-day-picker';
 import { v4 as guid } from 'uuid';
 import DomEventContainer from './common/DomEventContainer';
 import Calendar from './calendar/Calendar';
-import DateInput, { DatepickerInputProps } from './DateInput';
+import DateInput from './DateInput';
+import DsFormFieldWrapper from './DsFormFieldWrapper';
 import CalendarButton from './elementer/CalendarButton';
 import CalendarPortal from './elementer/CalendarPortal';
 import { usePrevious } from './hooks/usePrevious';
@@ -15,45 +18,105 @@ export type DatepickerValue = ISODateString | string;
 
 export type DatepickerChange = (value: DatepickerValue, isValidISODateString: boolean) => void;
 
-export interface DatepickerProps {
-    inputId?: string;
-    /** Skjult label, men kreves av <TextField/> i designsystemet. */
-    inputLabel: string;
-    value?: string | undefined;
+export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 'size'> {
+    /**
+     * Ref set on the input element
+     */
+    inputRef?: React.Ref<HTMLInputElement>;
+    /**
+     * Label
+     */
+    label: React.ReactNode;
+    /**
+     * Name set on input element
+     */
+    inputName: string;
+    /**
+     * Value set in input element
+     */
+    value?: string;
+    /**
+     * Expose input element props
+     */
+    inputProps?: Omit<HTMLAttributes<HTMLInputElement>, 'name' | 'id' | 'value'> & { ['data-testid']?: string };
+    /**
+     * Event when value is set by picker date in calendar or on input blur
+     */
     onChange: DatepickerChange;
-    disabled?: boolean;
+    /**
+     * Limitations on selecting dates in calendar
+     */
     limitations?: DatepickerLimitations;
+    /**
+     * Visual settngs for the calendar
+     */
     calendarSettings?: {
         showWeekNumbers?: boolean;
         position?: CalendarPlacement;
     };
+    /**
+     * Language sent to the react-day-picker
+     */
     locale?: DatepickerLocales;
-    inputProps?: DatepickerInputProps & { inputRef?: React.Ref<HTMLInputElement> };
-    allowInvalidDateSelection?: boolean;
+    /**
+     * Show or hide year and month dropdowns
+     */
     showYearSelector?: boolean;
-    dayPickerProps?: Omit<DayPickerProps, 'disabledDays'>;
+    /**
+     * Set forcus on selected date when calendar is shown
+     */
     setFocusOnDateWhenOpened?: boolean;
+    /**
+     * User can select dates which is not allowed - defined by limitations
+     */
+    allowInvalidDateSelection?: boolean;
+    /**
+     * User can navigate to months outside valid date ranges
+     */
     allowNavigationToDisabledMonths?: boolean;
+    /**
+     * Expose react-day-picker props
+     */
+    dayPickerProps?: Omit<DayPickerProps, 'disabledDays'>;
+    /**
+     * Function used when opening calendar. Can be used to see if the value is a valid date string
+     */
     calendarDateStringFilter?: (value: string | undefined) => string | undefined;
+    texts?: {
+        /** Visually hidden label for calendar button */
+        calendarLabel?: string;
+        /** Visually hidden label for go to next month button */
+        navBarNextMonthLabel?: string;
+        /** Visually hidden label for go top previous month button */
+        navbarPreviousMonthLabel?: string;
+    };
 }
 
-const Datepicker = ({
-    inputId = guid(),
-    inputLabel,
-    limitations,
-    value,
-    inputProps,
-    calendarSettings,
-    disabled,
-    allowInvalidDateSelection,
-    locale = 'nb',
-    showYearSelector,
-    onChange,
-    dayPickerProps,
-    setFocusOnDateWhenOpened,
-    allowNavigationToDisabledMonths = false,
-    calendarDateStringFilter,
-}: DatepickerProps) => {
+const Datepicker = (props: DatepickerProps) => {
+    const {
+        label,
+        value,
+        description,
+        limitations,
+        disabled,
+        size,
+        error,
+        errorId,
+        inputRef,
+        inputName,
+        inputProps,
+        calendarSettings,
+        allowInvalidDateSelection,
+        locale = 'nb',
+        showYearSelector,
+        onChange,
+        dayPickerProps,
+        setFocusOnDateWhenOpened,
+        allowNavigationToDisabledMonths = false,
+        texts,
+        calendarDateStringFilter,
+    } = props;
+
     const [activeMonth, setActiveMonth] = useState<Date>(getDefaultMonth(value, limitations, dayPickerProps));
     const [calendarIsVisible, setCalendarIsVisible] = useState<boolean>(false);
     const prevValue = usePrevious(value);
@@ -83,46 +146,59 @@ const Datepicker = ({
         onChange(value, isISODateString(value));
     };
 
-    const isInvalid = inputProps && inputProps['aria-invalid'] === true;
+    const inputId = props.id || guid();
+    const formFieldProps = useFormField(props, 'textField');
     return (
         <DomEventContainer>
-            <div className={`ds-datepicker${isInvalid ? ' ds-datepicker--error' : ''}`}>
-                <div>
-                    <DateInput
-                        id={inputId}
-                        label={inputLabel}
-                        ref={inputProps?.inputRef}
-                        inputProps={{ ...inputProps, disabled }}
-                        dateValue={value}
-                        onDateChange={setDate}
-                    />
-                    <CalendarButton
-                        disabled={disabled}
-                        onClick={() => setCalendarIsVisible(!calendarIsVisible)}
-                        isOpen={calendarIsVisible}
-                    />
-                </div>
-                {calendarIsVisible && (
-                    <CalendarPortal position={calendarSettings?.position}>
-                        <Calendar
-                            ref={calendarRef}
-                            locale={locale}
-                            showWeekNumbers={calendarSettings?.showWeekNumbers}
-                            dateString={calendarDateStringFilter ? calendarDateStringFilter(value) : value}
-                            month={activeMonth}
-                            minDateString={limitations && limitations.minDate}
-                            maxDateString={limitations && limitations.maxDate}
-                            unavailableDates={limitations ? getInvalidDates(limitations) : undefined}
-                            onSelect={setDate}
-                            onClose={() => setCalendarIsVisible(false)}
-                            allowInvalidDateSelection={allowInvalidDateSelection}
-                            dayPickerProps={dayPickerProps}
-                            showYearSelector={showYearSelector}
-                            setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
-                            allowNavigationToDisabledMonths={allowNavigationToDisabledMonths}
+            <div className="ds-datepicker">
+                <DsFormFieldWrapper
+                    label={label}
+                    description={description}
+                    formFieldProps={formFieldProps}
+                    error={error}
+                    id={inputId}>
+                    <div style={{ position: 'relative' }}>
+                        <DateInput
+                            ref={inputRef}
+                            {...formFieldProps.inputProps}
+                            {...inputProps}
+                            name={inputName}
+                            value={value}
+                            size={size}
+                            error={error}
+                            errorId={errorId}
+                            onDateChange={setDate}
                         />
-                    </CalendarPortal>
-                )}
+                        <CalendarButton
+                            disabled={disabled}
+                            size={props.size}
+                            isOpen={calendarIsVisible}
+                            label={texts?.calendarLabel}
+                            onClick={() => setCalendarIsVisible(!calendarIsVisible)}
+                        />
+                        {calendarIsVisible && (
+                            <CalendarPortal position={calendarSettings?.position}>
+                                <Calendar
+                                    ref={calendarRef}
+                                    locale={locale}
+                                    showWeekNumbers={calendarSettings?.showWeekNumbers}
+                                    dateString={calendarDateStringFilter ? calendarDateStringFilter(value) : value}
+                                    month={activeMonth}
+                                    minDateString={limitations && limitations.minDate}
+                                    maxDateString={limitations && limitations.maxDate}
+                                    unavailableDates={limitations ? getInvalidDates(limitations) : undefined}
+                                    onSelect={setDate}
+                                    onClose={() => setCalendarIsVisible(false)}
+                                    allowInvalidDateSelection={allowInvalidDateSelection}
+                                    dayPickerProps={dayPickerProps}
+                                    showYearSelector={showYearSelector}
+                                    setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
+                                    allowNavigationToDisabledMonths={allowNavigationToDisabledMonths}
+                                />
+                            </CalendarPortal>
+                        )}
+                    </div>
+                </DsFormFieldWrapper>
             </div>
         </DomEventContainer>
     );

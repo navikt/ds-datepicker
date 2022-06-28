@@ -1,11 +1,14 @@
+import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
 import React from 'react';
-import { Texts } from '../texts';
+import { DefaultTexts } from '../defaultTexts';
 import CalendarIcon from './CalendarIcon';
 
-export interface Props {
+export interface Props extends Pick<FormFieldProps, 'size'> {
     onClick: () => void;
     disabled?: boolean;
     isOpen: boolean;
+    /** sr-only label */
+    label?: string;
 }
 
 class CalendarButton extends React.Component<Props> {
@@ -16,13 +19,12 @@ class CalendarButton extends React.Component<Props> {
         }
     }
     render() {
-        const { onClick, isOpen, disabled } = this.props;
-
+        const { onClick, isOpen, disabled, label: label, size = 'medium' } = this.props;
         return (
             <button
                 ref={(c) => (this.button = c)}
                 type="button"
-                className="ds-datepicker__kalenderknapp"
+                className={`ds-datepicker__calendarButton ds-datepicker__calendarButton--${size}`}
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();
@@ -30,8 +32,8 @@ class CalendarButton extends React.Component<Props> {
                 }}
                 disabled={disabled}
                 aria-expanded={isOpen}>
-                <span className="sr-only">{Texts.calendarLabel}</span>
-                <span aria-hidden={true} className="ds-datepicker__kalenderknapp__icon">
+                <span className="sr-only">{label || DefaultTexts.calendarLabel}</span>
+                <span aria-hidden={true} className="ds-datepicker__calendarButton__icon">
                     <CalendarIcon />
                 </span>
             </button>

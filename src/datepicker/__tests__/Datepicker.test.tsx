@@ -1,120 +1,102 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import Datepicker from '../Datepicker';
 
+const initialMonth = new Date(2020, 5, 1);
+
+jest.mock('@navikt/ds-react/esm/form/useFormField', () => ({
+    useFormField: () => ({
+        showErrorMsg: true,
+        hasError: true,
+        errorId: '123',
+        inputDescriptionId: undefined,
+        size: 'medium',
+        inputProps: {
+            id: 'theInput',
+            'aria-invalid': false,
+        },
+    }),
+}));
+
 describe('Datepicker', () => {
-    it('Should be defined', () => {
-        expect(
-            mount(
+    const testId = 'theInput';
+    const onDateChangeMock = jest.fn();
+
+    const setup = (value?: string, errorMsg?: string) => {
+        const utils = render(
+            <div>
                 <Datepicker
-                    inputProps={{ onChange: jest.fn() } as any}
-                    inputId={'inputId'}
-                    inputLabel="Oppgi dato for abc"
-                    onChange={jest.fn()}
+                    id={'inputId'}
+                    label="Oppgi dato for abc"
+                    value={value}
+                    inputName="dsf"
+                    onChange={onDateChangeMock}
+                    inputProps={{ ['data-testid']: testId }}
+                    dayPickerProps={{ initialMonth }}
+                    error={errorMsg}
                 />
-            )
-        ).toBeDefined();
-    });
+            </div>
+        );
+        const button = utils.getByText('Kalender').parentElement as HTMLInputElement;
+        const input = utils.getByTestId(testId) as HTMLInputElement;
+        const error = errorMsg ? (utils.getByText(errorMsg) as HTMLInputElement) : undefined;
+        return {
+            button,
+            input,
+            error,
+            ...utils,
+        };
+    };
 
     it('Should render DateInput and CalendarButton', () => {
-        const wrapper = mount(
-            <Datepicker
-                inputProps={{ name: 'sdf' }}
-                inputId={'inputId'}
-                inputLabel="Oppgi dato for abc"
-                onChange={jest.fn()}
-            />
-        );
-        const input = wrapper.find('ForwardRef(DateInput)');
-        const button = wrapper.find('CalendarButton');
-        expect(input.length).toBe(1);
-        expect(button.length).toBe(1);
+        const { button, input } = setup();
+        expect(button).toBeDefined();
+        expect(input).toBeDefined();
     });
 
-    it('Should show calendar when CalendarButton clicked', () => {
-        const wrapper = mount(
-            <Datepicker
-                inputProps={{ name: 'sdf' }}
-                inputId={'inputId'}
-                inputLabel="Oppgi dato for abc"
-                onChange={jest.fn()}
-            />
-        );
-        const button = wrapper.find('CalendarButton');
-        button.simulate('click');
-        expect(wrapper.find('CalendarPortal').length).toBe(1);
+    it('Should show calendar when CalendarButton clicked', async () => {
+        const { button } = setup();
+        fireEvent.click(button);
+        await waitFor(() => expect(screen.findAllByRole('dialog')).toBeDefined());
     });
 
     it('Should set new date when typed into DateInput ', () => {
-        const changeFunction = jest.fn();
-        const wrapper = mount(
-            <Datepicker
-                inputProps={{ name: 'abc' }}
-                inputId={'inputId'}
-                inputLabel="Oppgi dato for abc"
-                onChange={changeFunction}
-            />
-        );
-        const input = wrapper.find('input');
-        input.simulate('change', { target: { name: 'abc', value: '12.10.2000' } });
-        input.simulate('blur');
-        expect(changeFunction.mock.calls.length).toBe(1);
-        expect(changeFunction.mock.calls[0][0]).toEqual('2000-10-12');
-        expect(wrapper.find('input').prop('value')).toBe('12.10.2000');
+        const { input } = setup();
+        fireEvent.change(input, { target: { name: 'abc', value: '12.10.2000' } });
+        fireEvent.blur(input);
+        expect(onDateChangeMock.mock.calls.length).toBe(1);
+        expect(onDateChangeMock.mock.calls[0][0]).toEqual('2000-10-12');
+        expect(input.value).toEqual('12.10.2000');
     });
 
     it('Should keep invalid date string in input when invalid formatted date is typed into DateInput ', () => {
-        const changeFunction = jest.fn();
-        const wrapper = mount(
-            <Datepicker
-                inputProps={{ name: 'sdf' }}
-                inputId={'inputId'}
-                inputLabel="Oppgi dato for abc"
-                onChange={changeFunction}
-            />
-        );
-        const input = wrapper.find('input');
-        input.simulate('change', { target: { value: '1210.2000' } });
-        input.simulate('blur');
-        expect(changeFunction.mock.calls.length).toBe(1);
-        expect(changeFunction.mock.calls[0][0]).toEqual('1210.2000');
-        expect(wrapper.find('input').prop('value')).toBe('1210.2000');
+        const { input } = setup();
+        fireEvent.change(input, { target: { name: 'abc', value: '1210.2000' } });
+        fireEvent.blur(input);
+        expect(input.value).toEqual('1210.2000');
     });
 
     it('Should trigger onChange with "" when empty string typed into DateInput ', () => {
-        const changeFunction = jest.fn();
-        const wrapper = mount(
-            <Datepicker
-                inputProps={{ name: 'sdf' }}
-                inputId={'inputId'}
-                inputLabel="Oppgi dato for abc"
-                onChange={changeFunction}
-            />
-        );
-        const input = wrapper.find('input');
-        input.simulate('change', { target: { value: '' } });
-        input.simulate('blur');
-        expect(changeFunction.mock.calls.length).toBe(1);
-        expect(changeFunction.mock.calls[0][0]).toEqual('');
-        expect(wrapper.find('input').prop('value')).toBe('');
+        const { input } = setup('12.10.2000');
+        fireEvent.change(input, { target: { name: 'abc', value: '' } });
+        fireEvent.blur(input);
+        expect(input.value).toEqual('');
     });
 
-    it('Should set correct date when date chosen from calendar', () => {
-        const changeFunction = jest.fn();
-        const wrapper = mount(
-            <Datepicker
-                inputProps={{ name: 'sdf' }}
-                inputLabel="Oppgi dato for abc"
-                inputId={'inputId'}
-                onChange={changeFunction}
-                value={'2020-06-20'}
-            />
-        );
-        const button = wrapper.find('CalendarButton');
-        button.simulate('click');
-        const day = wrapper.find('[empty=false]').at(3);
-        day.simulate('click');
-        expect(changeFunction.mock.calls.length).toBe(1);
-        expect(changeFunction.mock.calls[0][0]).toEqual('2020-06-04');
+    it('Should set correct date when date chosen from calendar', async () => {
+        const { button } = setup();
+        fireEvent.click(button);
+        await waitFor(() => {
+            expect(screen.queryAllByRole('dialog').length).toBe(1);
+        });
+        const day = screen.getByText('16') as HTMLElement;
+        fireEvent.click(day);
+        expect(onDateChangeMock.mock.calls.length).toBe(1);
+        expect(onDateChangeMock.mock.calls[0][0]).toEqual('2020-06-16');
+    });
+
+    it('Should render error message if set', () => {
+        const { error } = setup('abc', 'Date is invalid');
+        expect(error).toBeDefined();
     });
 });

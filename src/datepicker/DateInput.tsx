@@ -1,23 +1,18 @@
-import React, { ChangeEvent, FocusEvent, InputHTMLAttributes, useEffect, useState } from 'react';
+import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
+import React, { ChangeEvent, FocusEvent, HTMLAttributes, useEffect, useState } from 'react';
+import classNames from 'classnames';
 import { InputDateString, ISODateString } from './types';
-import { TextField } from '@navikt/ds-react';
 import {
     InputDateStringToISODateString,
     INVALID_DATE_VALUE,
     ISODateStringToInputDateString,
 } from './utils/dateFormatUtils';
+import { omit } from '@navikt/ds-react';
 
-export type DatepickerInputProps = Pick<
-    InputHTMLAttributes<HTMLInputElement>,
-    'name' | 'aria-invalid' | 'aria-label' | 'aria-describedby' | 'placeholder' | 'disabled' | 'pattern' | 'title'
->;
-
-interface Props {
-    id?: string;
-    dateValue?: ISODateString;
-    label: string;
+export interface DatepickerInputProps extends FormFieldProps, HTMLAttributes<HTMLInputElement> {
+    name: string;
+    value?: ISODateString;
     onDateChange: (date: ISODateString | string | undefined) => void;
-    inputProps?: DatepickerInputProps;
 }
 
 const getInitialValue = (dateValue: string): string => {
@@ -35,16 +30,16 @@ const isInputFormattedDateString = (value: any) => {
     }
 };
 const DateInput = React.forwardRef(function DateInput(
-    { id, dateValue = '', inputProps, onDateChange, label }: Props,
+    { id, value = '', size, onDateChange, name, ...rest }: DatepickerInputProps,
     ref: React.Ref<HTMLInputElement>
 ) {
-    const [inputValue, setInputValue] = useState<InputDateString>(getInitialValue(dateValue));
+    const [inputValue, setInputValue] = useState<InputDateString>(getInitialValue(value));
 
     const triggerValueChange = (value = '') => {
         const isoDateString = InputDateStringToISODateString(value.trim());
         if (isoDateString !== INVALID_DATE_VALUE) {
-            if (!isInputFormattedDateString(value) && dateValue !== '') {
-                setInputValue(ISODateStringToInputDateString(dateValue));
+            if (!isInputFormattedDateString(value) && value !== '') {
+                setInputValue(ISODateStringToInputDateString(value));
             }
             onDateChange(isoDateString);
         } else {
@@ -68,33 +63,30 @@ const DateInput = React.forwardRef(function DateInput(
     };
 
     useEffect(() => {
-        const inputDateString = ISODateStringToInputDateString(dateValue);
+        const inputDateString = ISODateStringToInputDateString(value);
         if (inputDateString !== INVALID_DATE_VALUE) {
-            setInputValue(dateValue === undefined || dateValue === '' ? '' : inputDateString);
+            setInputValue(value === undefined || value === '' ? '' : inputDateString);
         } else {
-            setInputValue(dateValue);
+            setInputValue(value);
         }
-    }, [dateValue]);
-
-    const isInvalid = inputProps && inputProps['aria-invalid'] === true;
+    }, [value]);
 
     return (
-        <TextField
-            label={label}
-            hideLabel={true}
-            ref={ref}
+        <input
             id={id}
-            {...inputProps}
-            error={isInvalid}
-            autoComplete="off"
-            autoCorrect="off"
+            name={name}
+            ref={ref}
             type="text"
             inputMode="text"
+            className={classNames('navds-text-field__input', 'navds-body-short', `navds-body-${size ?? 'medium'}`)}
             value={inputValue}
             maxLength={10}
             onChange={onChange}
             onBlur={onBlur}
             onKeyDown={onKeyDown}
+            autoComplete="off"
+            autoCorrect="off"
+            {...omit(rest, ['errorId', 'error'])}
         />
     );
 });

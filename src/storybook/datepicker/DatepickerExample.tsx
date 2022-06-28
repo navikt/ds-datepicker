@@ -1,3 +1,4 @@
+import { Button, Checkbox } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
@@ -6,7 +7,6 @@ import { isISODateString } from '../../datepicker/types/typeGuards';
 import { ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
 import Box from '../components/box/Box';
 import { holidays } from '../utils/holidays';
-import { Button, Checkbox } from '@navikt/ds-react';
 
 const renderDate = (dateString = ''): string => {
     if (dateString === '') {
@@ -42,21 +42,18 @@ const DatepickerExample: React.FunctionComponent = () => {
         return /\d{1,2}.\d{1,2}.(\d{2}|\d{4})$/.test(dateString);
     };
 
+    const isInvalid = date !== '' && isISODateString(date) === false;
+
     return (
         <div>
             <Box margin="xl">
-                <label style={{ display: 'block', marginBottom: '.5rem' }} htmlFor="datovelger-input">
-                    Choose date (format dd.mm.yyyy)
-                </label>
                 <Datepicker
-                    inputId="datovelger-input"
-                    inputLabel="Hvilken dato ønsker du?"
+                    id="datovelger-input"
+                    label="Choose a date"
                     value={date}
                     onChange={setDate}
-                    inputProps={{
-                        name: 'dateInput',
-                        'aria-invalid': date !== '' && isISODateString(date) === false,
-                    }}
+                    inputName="dateInput"
+                    error={isInvalid ? 'Invalid date' : undefined}
                     disabled={disabled}
                     setFocusOnDateWhenOpened={true}
                     locale={locale}
@@ -84,6 +81,9 @@ const DatepickerExample: React.FunctionComponent = () => {
                         },
                     }}
                     allowNavigationToDisabledMonths={allowNavigatingToDisabledMonths}
+                    texts={{
+                        calendarLabel: 'Vis datovelger',
+                    }}
                 />
                 <Box margin="l">Chosen date: {renderDate(date)}</Box>
                 <Box margin="m">
@@ -138,20 +138,21 @@ const DatepickerExample: React.FunctionComponent = () => {
                 <Box margin="xl">Restrictions</Box>
                 <Box margin="m">
                     <div style={{ display: 'inline-block' }}>
-                        <label htmlFor={'date-range-from'}>First pickable date</label>
                         <Datepicker
-                            inputId={'date-range-from'}
-                            inputLabel="Hvilken dato ønsker du?"
+                            size="small"
+                            inputName="date-range-from"
+                            label="First pickable date"
                             onChange={(e) => setMinDate(e)}
                             value={minDate}
                         />
                     </div>
                     {' - '}
                     <div style={{ display: 'inline-block' }}>
-                        <label htmlFor={'date-range-to'}>Last pickable date</label>
                         <Datepicker
-                            inputId={'date-range-to'}
-                            inputLabel="Hvilken dato ønsker du?"
+                            // id={'date-range-to'}
+                            size="small"
+                            label="Last pickable date"
+                            inputName="date-range-to"
                             onChange={(e) => setMaxDate(e)}
                             value={maxDate}
                         />

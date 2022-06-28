@@ -1,13 +1,13 @@
+import { Button } from '@navikt/ds-react';
 import React from 'react';
 import { LocaleUtils } from 'react-day-picker';
 import classnames from 'classnames';
 import dayjs from 'dayjs';
+import { DefaultTexts } from '../defaultTexts';
 import Chevron from '../elementer/ChevronSvg';
-import { Texts } from '../texts';
+import { DatepickerLocales } from '../types';
 import { NavigationFocusElement } from './Calendar';
 import YearSelector from './YearSelector';
-import { DatepickerLocales } from '../types';
-import { Button } from '@navikt/ds-react';
 
 type Direction = 'previousMonth' | 'nextMonth';
 
@@ -21,10 +21,13 @@ interface Props {
     localeUtils: LocaleUtils;
     allowNavigationToDisabledMonths: boolean;
     locale: DatepickerLocales;
+    nextMonthLabel?: string;
+    prevMonthLabel?: string;
 }
 
 interface NavbarButtonProps {
     month: Date;
+    ariaLabel: string;
     direction: Direction;
     disabled: boolean;
     onClick: (evt: any, måned: Date, focusElement: NavigationFocusElement) => void;
@@ -32,9 +35,7 @@ interface NavbarButtonProps {
 
 class NavbarButton extends React.Component<NavbarButtonProps> {
     render() {
-        const { month, direction, disabled, onClick } = this.props;
-        const label = direction === 'previousMonth' ? Texts.navbarPreviousMonthLabel : Texts.navBarNextMonthLabel;
-
+        const { month, direction, disabled, ariaLabel, onClick } = this.props;
         return (
             <Button
                 type="button"
@@ -45,7 +46,7 @@ class NavbarButton extends React.Component<NavbarButtonProps> {
                     'ds-datepicker__navbar__knapp--disabled': disabled,
                 })}
                 onClick={(e) => (disabled ? null : onClick(e, month, direction))}
-                aria-label={label}
+                aria-label={ariaLabel}
                 aria-disabled={disabled}>
                 <Chevron direction={direction === 'previousMonth' ? 'venstre' : 'høyre'} />
             </Button>
@@ -70,6 +71,8 @@ class Navbar extends React.Component<Props> {
             localeUtils,
             allowNavigationToDisabledMonths,
             locale,
+            nextMonthLabel,
+            prevMonthLabel,
         } = this.props;
 
         const previousMonth = dayjs(defaultMonth).subtract(1, 'month');
@@ -115,12 +118,14 @@ class Navbar extends React.Component<Props> {
                         month={previousMonth.toDate()}
                         direction={'previousMonth'}
                         disabled={lastMonthIsDisabled}
+                        ariaLabel={prevMonthLabel || DefaultTexts.navbarPreviousMonthLabel}
                         onClick={(evt, month) => onClick(evt, month, 'previousMonth')}
                     />
                     <NavbarButton
                         month={nextMonth.toDate()}
                         direction={'nextMonth'}
                         disabled={nextMonthIsDisabled}
+                        ariaLabel={nextMonthLabel || DefaultTexts.navBarNextMonthLabel}
                         onClick={(evt, month) => onClick(evt, month, 'nextMonth')}
                     />
                 </nav>

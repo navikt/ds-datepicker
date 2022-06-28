@@ -10,18 +10,16 @@
     * {
         box-sizing: border-box;
     }
-    /** Override ds styling **/
-    .navds-form-field {
-        gap: 0;
-    }
     @input-width: 11rem;
     @input-width-range: 9rem;
     position: relative;
     display: inline-block;
 
-    &--error {
-        .ds-datepicker__kalenderknapp {
-            border-color: var(--navds-alert-color-error-border);
+    .navds-text-field--error {
+        .ds-datepicker__calendarButton:not(:disabled),
+        .navds-text-field__input:not(:disabled) {
+            border-color: var(--navds-text-field-color-border-error);
+            box-shadow: 0 0 0 1px var(--navds-text-field-color-border-error);
         }
     }
 
@@ -43,7 +41,7 @@
         width: @input-width;
         position: relative;
     }
-    &__kalenderknapp {
+    &__calendarButton {
         padding: 0.1rem 0.5rem;
         @borderRadius: 0 4px 4px 0;
         background-color: @white;
@@ -65,7 +63,7 @@
                 height: 16px;
             }
         }
-        &:not(:disabled) {
+        & {
             &:active,
             &:hover,
             &:focus {
@@ -75,6 +73,11 @@
         &:disabled {
             background: transparent;
             cursor: default;
+        }
+        &--small {
+            min-height: 1.5rem;
+            padding: 0;
+            width: 2rem;
         }
     }
     &__caption {
@@ -130,9 +133,9 @@
             }
         }
     }
-    &__kalenderPortal {
+    &__calendarPortal {
         position: absolute;
-        top: ~'calc(100% + 2px)';
+        top: ~'calc(100% + 0.25rem)';
         left: 0;
         line-height: 1.3em;
         z-index: @z-popup;
@@ -146,7 +149,7 @@
             right: 0;
             bottom: 0;
             background-color: rgba(255, 255, 255, 0.8);
-            .ds-datepicker__kalenderPortal__content {
+            .ds-datepicker__calendarPortal__content {
                 margin: 0 auto;
                 min-height: 20rem;
             }

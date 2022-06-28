@@ -24,10 +24,13 @@ const AdvancedDatePicker = () => {
     return (
         <Datepicker
             locale={'nb'}
-            inputId="datepicker-input"
-            inputLabel="Oppgi dato"
+            id="datepicker-input"
+            label="Oppgi dato"
             value={date}
+            inputName="inputName"
             onChange={setDate}
+            error="En feilmelding"
+            disabled={false}
             inputProps={{
                 name: 'dateInput',
                 'aria-invalid': date !== '' && isISODateString(date) === false,
@@ -50,10 +53,10 @@ const AdvancedDatePicker = () => {
 };
 ```
 
-# Kjøre eksempel-app
+# Storybook
 
-Starter app med enkelt eksempel
+Starter storybook med enkelt eksempel som viser noe av funksjonaliteten
 
 ```
-npm run dev
+npm run storybook
 ```
