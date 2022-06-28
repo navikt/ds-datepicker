@@ -19,24 +19,77 @@ export type DatepickerValue = ISODateString | string;
 export type DatepickerChange = (value: DatepickerValue, isValidISODateString: boolean) => void;
 
 export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 'size'> {
+    /**
+     * Ref set on the input element
+     */
     inputRef?: React.Ref<HTMLInputElement>;
-    label: string;
-    value?: string | undefined;
+    /**
+     * Label
+     */
+    label: React.ReactNode;
+    /**
+     * Name set on input element
+     */
     inputName: string;
+    /**
+     * Value set in input element
+     */
+    value?: string;
+    /**
+     * Expose input element props
+     */
     inputProps?: Omit<HTMLAttributes<HTMLInputElement>, 'name' | 'id' | 'value'> & { ['data-testid']?: string };
+    /**
+     * Event when value is set by picker date in calendar or on input blur
+     */
     onChange: DatepickerChange;
+    /**
+     * Limitations on selecting dates in calendar
+     */
     limitations?: DatepickerLimitations;
+    /**
+     * Visual settngs for the calendar
+     */
     calendarSettings?: {
         showWeekNumbers?: boolean;
         position?: CalendarPlacement;
     };
+    /**
+     * Language sent to the react-day-picker
+     */
     locale?: DatepickerLocales;
-    allowInvalidDateSelection?: boolean;
+    /**
+     * Show or hide year and month dropdowns
+     */
     showYearSelector?: boolean;
-    dayPickerProps?: Omit<DayPickerProps, 'disabledDays'>;
+    /**
+     * Set forcus on selected date when calendar is shown
+     */
     setFocusOnDateWhenOpened?: boolean;
+    /**
+     * User can select dates which is not allowed - defined by limitations
+     */
+    allowInvalidDateSelection?: boolean;
+    /**
+     * User can navigate to months outside valid date ranges
+     */
     allowNavigationToDisabledMonths?: boolean;
+    /**
+     * Expose react-day-picker props
+     */
+    dayPickerProps?: Omit<DayPickerProps, 'disabledDays'>;
+    /**
+     * Function used when opening calendar. Can be used to see if the value is a valid date string
+     */
     calendarDateStringFilter?: (value: string | undefined) => string | undefined;
+    texts?: {
+        /** Visually hidden label for calendar button */
+        calendarLabel?: string;
+        /** Visually hidden label for go to next month button */
+        navBarNextMonthLabel?: string;
+        /** Visually hidden label for go top previous month button */
+        navbarPreviousMonthLabel?: string;
+    };
 }
 
 const Datepicker = (props: DatepickerProps) => {
@@ -60,6 +113,7 @@ const Datepicker = (props: DatepickerProps) => {
         dayPickerProps,
         setFocusOnDateWhenOpened,
         allowNavigationToDisabledMonths = false,
+        texts,
         calendarDateStringFilter,
     } = props;
 
@@ -119,6 +173,7 @@ const Datepicker = (props: DatepickerProps) => {
                             disabled={disabled}
                             size={props.size}
                             isOpen={calendarIsVisible}
+                            label={texts?.calendarLabel}
                             onClick={() => setCalendarIsVisible(!calendarIsVisible)}
                         />
                         {calendarIsVisible && (

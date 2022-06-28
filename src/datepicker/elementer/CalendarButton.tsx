@@ -1,12 +1,14 @@
 import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
 import React from 'react';
-import { Texts } from '../texts';
+import { DefaultTexts } from '../defaultTexts';
 import CalendarIcon from './CalendarIcon';
 
 export interface Props extends Pick<FormFieldProps, 'size'> {
     onClick: () => void;
     disabled?: boolean;
     isOpen: boolean;
+    /** sr-only label */
+    label?: string;
 }
 
 class CalendarButton extends React.Component<Props> {
@@ -17,7 +19,7 @@ class CalendarButton extends React.Component<Props> {
         }
     }
     render() {
-        const { onClick, isOpen, disabled, size = 'medium' } = this.props;
+        const { onClick, isOpen, disabled, label: label, size = 'medium' } = this.props;
         return (
             <button
                 ref={(c) => (this.button = c)}
@@ -30,7 +32,7 @@ class CalendarButton extends React.Component<Props> {
                 }}
                 disabled={disabled}
                 aria-expanded={isOpen}>
-                <span className="sr-only">{Texts.calendarLabel}</span>
+                <span className="sr-only">{label || DefaultTexts.calendarLabel}</span>
                 <span aria-hidden={true} className="ds-datepicker__calendarButton__icon">
                     <CalendarIcon />
                 </span>

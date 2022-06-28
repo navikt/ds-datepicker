@@ -81,6 +81,9 @@ const DatepickerExample: React.FunctionComponent = () => {
                         },
                     }}
                     allowNavigationToDisabledMonths={allowNavigatingToDisabledMonths}
+                    texts={{
+                        calendarLabel: 'Vis datovelger',
+                    }}
                 />
                 <Box margin="l">Chosen date: {renderDate(date)}</Box>
                 <Box margin="m">

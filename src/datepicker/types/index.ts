@@ -25,3 +25,9 @@ export interface DatepickerLimitations {
 export type DatepickerLocales = 'nb' | 'nn' | 'en';
 
 export type CalendarPlacement = 'under' | 'fullscreen' | '' | 'responsive';
+
+export interface CalendarTexts {
+    calendarLabel: string;
+    navBarNextMonthLabel: string;
+    navbarPreviousMonthLabel: string;
+}
