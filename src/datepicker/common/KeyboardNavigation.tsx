@@ -82,7 +82,7 @@ const endAction = (onAction: KeyboarActionEvent): KeyboardAction => ({
     onAction,
 });
 
-const KeyboardNavigation: React.StatelessComponent<Props> = (props: Props) => (
+const KeyboardNavigation: React.FunctionComponent<Props> = (props: Props) => (
     <KeyboardActions
         actions={[
             ...(props.onEnter ? [enterAction(props.onEnter)] : []),

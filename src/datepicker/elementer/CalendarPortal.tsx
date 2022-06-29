@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { CalendarPlacement } from '../types';
 
 interface Props {
+    children: React.ReactNode;
     position?: CalendarPlacement;
 }
 

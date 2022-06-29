@@ -26,6 +26,7 @@ export interface KeyboardAction {
 }
 
 export interface Props {
+    children: React.ReactNode;
     actions: KeyboardAction[];
 }
 
