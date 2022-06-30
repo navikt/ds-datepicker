@@ -1,4 +1,7 @@
-import { DaysOfWeekModifier } from 'react-day-picker';
+// import { DaysOfWeekModifier } from 'react-day-picker';
+import { Locale } from 'date-fns';
+
+import { Matcher } from 'react-day-picker';
 
 /** YYYY-MM-DD */
 export type ISODateString = string;
@@ -19,10 +22,10 @@ export interface DatepickerLimitations {
     maxDate?: ISODateString;
     invalidDateRanges?: DatepickerDateRange[];
     weekendsNotSelectable?: boolean;
-    disabledDaysOfWeek?: DaysOfWeekModifier;
+    disabledDaysOfWeek?: Matcher;
 }
 
-export type DatepickerLocales = 'nb' | 'nn' | 'en';
+export type DatepickerLocales = Locale;
 
 export type CalendarPlacement = 'under' | 'fullscreen' | '' | 'responsive';
 

@@ -22,15 +22,15 @@
         "url": "https://github.com/navikt/ds-datepicker/issues"
     },
     "dependencies": {
-        "@navikt/ds-css": "^0.18.18",
-        "@navikt/ds-react": "^0.19.14",
+        "@navikt/ds-css": "^0.18.x",
+        "@navikt/ds-react": "^0.19.x",
         "focus-trap-react": "^8.8.2"
     },
     "devDependencies": {
         "@babel/core": "^7.18.5",
         "@navikt/fnrvalidator": "^1.3.0",
-        "@storybook/addon-actions": "^6.5.9",
         "@storybook/addon-a11y": "^6.5.9",
+        "@storybook/addon-actions": "^6.5.9",
         "@storybook/addon-essentials": "^6.5.9",
         "@storybook/addon-interactions": "^6.5.9",
         "@storybook/addon-links": "^6.5.9",
@@ -71,7 +71,7 @@
         "prettier": "^2.7.1",
         "react": "^17.0.2",
         "react-collapse": "^5.1.1",
-        "react-day-picker": "^7.4.10",
+        "react-day-picker": "^8.0.3",
         "react-dom": "^17.0.2",
         "react-intl": "^6.0.4",
         "react-modal": "^3.15.1",

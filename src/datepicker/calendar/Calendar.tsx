@@ -1,6 +1,6 @@
 import FocusTrap from 'focus-trap-react';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
-import DayPicker, { DayModifiers, DayPickerProps, LocaleUtils, Modifier } from 'react-day-picker';
+import { DayModifiers, DayPicker, DayPickerProps, Matcher } from 'react-day-picker';
 import DomEventContainer from '../common/DomEventContainer';
 import { DatepickerLocales, ISODateString } from '../types';
 import {
@@ -9,9 +9,9 @@ import {
     setFocusOnLastElementInDayPickerCaption,
     setInitialDayFocus,
 } from '../utils/calendarFocusUtils';
-import calendarLocaleUtils from '../utils/calendarLocaleUtils';
 import { dateToISODateString, ISODateStringToUTCDate } from '../utils/dateFormatUtils';
-import Navbar from './Navbar';
+
+export type CalendarDayPickerProps = Omit<DayPickerProps, 'mode' | 'selected'>;
 
 require('dayjs/locale/nb.js');
 require('dayjs/locale/nn.js');
@@ -21,20 +21,45 @@ interface Props {
     dateString?: ISODateString;
     minDateString?: ISODateString;
     maxDateString?: ISODateString;
-    localeUtils?: LocaleUtils;
     onSelect: (dateString: ISODateString) => void;
     onClose: () => void;
-    unavailableDates?: Modifier[];
+    unavailableDates?: Matcher[];
     allowInvalidDateSelection?: boolean;
-    showWeekNumbers?: boolean;
+    showWeekNumber?: boolean;
     showYearSelector?: boolean;
     locale: DatepickerLocales;
-    dayPickerProps?: DayPickerProps;
+    dayPickerProps?: CalendarDayPickerProps;
     setFocusOnDateWhenOpened?: boolean;
-    allowNavigationToDisabledMonths: boolean;
 }
 
 export type NavigationFocusElement = 'nextMonth' | 'previousMonth' | 'year' | 'month';
+
+const getCaptionLayout = (showYearSelector) => {
+    console.log(showYearSelector);
+
+    if (showYearSelector) {
+        console.log('returning dropdown');
+
+        return 'dropdown';
+    }
+    return 'buttons';
+};
+
+const css = `
+  .my-selected:not([disabled]) { 
+    font-weight: bold; 
+    border: 2px solid currentColor;
+  }
+  .my-selected:hover:not([disabled]) { 
+    border-color: blue;
+    color: blue;
+  }
+  .my-today { 
+    font-weight: bold;
+    font-size: 140%; 
+    color: red;
+  }
+`;
 
 const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref<HTMLDivElement>) {
     const [displayMonth, setDisplayMonth] = useState<Date>(props.month);
@@ -43,8 +68,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
         dateString,
         minDateString,
         maxDateString,
-        localeUtils,
-        showWeekNumbers,
+        showWeekNumber,
         unavailableDates,
         showYearSelector,
         allowInvalidDateSelection,
@@ -53,7 +77,6 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
         onSelect,
         setFocusOnDateWhenOpened,
         dayPickerProps,
-        allowNavigationToDisabledMonths,
     } = props;
 
     const onSelectDate = (date: Date, modifiers: DayModifiers) => {
@@ -75,34 +98,6 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
         if (dayPickerProps?.onMonthChange) {
             dayPickerProps?.onMonthChange(month);
         }
-    };
-
-    const dayPickerPropsToUse: DayPickerProps = {
-        localeUtils: calendarLocaleUtils,
-        navbarElement: function navbarElement() {
-            return <span />;
-        },
-        captionElement: function CaptionElement() {
-            const minDate = ISODateStringToUTCDate(minDateString);
-            const maxDate = ISODateStringToUTCDate(maxDateString);
-            return (
-                <Navbar
-                    defaultMonth={displayMonth}
-                    onChangeMonth={onChangeMonth}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    localeUtils={{
-                        ...calendarLocaleUtils,
-                        ...localeUtils,
-                    }}
-                    showYearSelector={showYearSelector}
-                    allowNavigationToDisabledMonths={allowNavigationToDisabledMonths}
-                    locale={locale}
-                />
-            );
-        },
-        firstDayOfWeek: 1,
-        showWeekNumbers,
     };
 
     const calendarRef = useRef<any>();
@@ -137,19 +132,26 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                             onDeactivate: onClose,
                             fallbackFocus: 'body',
                         }}>
-                        <DayPicker
-                            locale={locale}
-                            fromMonth={minDateString ? ISODateStringToUTCDate(minDateString) : undefined}
-                            toMonth={maxDateString ? ISODateStringToUTCDate(maxDateString) : undefined}
-                            canChangeMonth={false}
-                            selectedDays={dateString ? ISODateStringToUTCDate(dateString) : undefined}
-                            onDayClick={onSelectDate}
-                            onMonthChange={onChangeMonth}
-                            disabledDays={unavailableDates}
-                            {...dayPickerProps}
-                            {...dayPickerPropsToUse}
-                            month={displayMonth}
-                        />
+                        <div>
+                            <DayPicker
+                                mode="single"
+                                onSelect={(_date, selectedDate, modifiers) => {
+                                    onSelectDate(selectedDate, modifiers);
+                                }}
+                                initialFocus={true}
+                                fromMonth={minDateString ? ISODateStringToUTCDate(minDateString) : undefined}
+                                toMonth={maxDateString ? ISODateStringToUTCDate(maxDateString) : undefined}
+                                selected={dateString ? ISODateStringToUTCDate(dateString) : undefined}
+                                onMonthChange={onChangeMonth}
+                                disabled={unavailableDates}
+                                month={displayMonth}
+                                locale={locale}
+                                captionLayout={getCaptionLayout(showYearSelector)}
+                                showWeekNumber={showWeekNumber}
+                                weekStartsOn={1}
+                                // {...dayPickerProps}
+                            />
+                        </div>
                     </FocusTrap>
                 </div>
             </DomEventContainer>

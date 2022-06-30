@@ -4,9 +4,13 @@ import dayjs from 'dayjs';
 import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
 import { DatepickerDateRange, DatepickerLocales } from '../../datepicker/types';
 import { isISODateString } from '../../datepicker/types/typeGuards';
-import { ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
+import { dateToISODateString, ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
 import Box from '../components/box/Box';
 import { holidays } from '../utils/holidays';
+
+import nb from 'date-fns/locale/nb';
+import nn from 'date-fns/locale/nn';
+import en from 'date-fns/locale/en-GB';
 
 const renderDate = (dateString = ''): string => {
     if (dateString === '') {
@@ -20,22 +24,26 @@ const isPublicHoliday = (d: Date): boolean => {
     return holidays.some((d2) => dayjs(d2.date).isSame(d, 'day'));
 };
 
+const minMaxRange = {
+    maxDate: dateToISODateString(dayjs().add(2, 'year').toDate()),
+    minDate: dateToISODateString(dayjs().subtract(2, 'year').toDate()),
+};
+
 const DatepickerExample: React.FunctionComponent = () => {
     const [date, setDate] = useState<DatepickerValue>('');
-    const [showYearSelector, setShowYearSelector] = useState<boolean>(false);
-    const [showWeekNumbers, setShowWeekNumbers] = useState<boolean>(false);
+    const [showYearSelector, setShowYearSelector] = useState<boolean>(true);
+    const [showWeekNumber, setshowWeekNumber] = useState<boolean>(false);
     const [disabled, setDisabled] = useState<boolean>(false);
     const [showPublicHolidays, setShowPublicHolidays] = useState<boolean>(true);
-    const [initialMonth, setInitialMonth] = useState<Date | undefined>();
-    const [locale, setLocale] = useState<DatepickerLocales>('nb');
+    const [defaultMonth, setdefaultMonth] = useState<Date | undefined>();
+    const [locale, setLocale] = useState<DatepickerLocales>(nb);
 
-    const [minDate, setMinDate] = useState<DatepickerValue>('2000-04-03');
-    const [maxDate, setMaxDate] = useState<DatepickerValue>('2025-12-12');
-    const [allowNavigatingToDisabledMonths, setAllowNavigatingToDisabledMonths] = useState(false);
+    const [minDate, setMinDate] = useState<DatepickerValue>(minMaxRange.minDate);
+    const [maxDate, setMaxDate] = useState<DatepickerValue>(minMaxRange.maxDate);
 
     const takenRange: DatepickerDateRange = {
-        from: '2021-04-10',
-        to: '2021-04-11',
+        from: '2022-04-10',
+        to: '2022-04-21',
     };
 
     const isValidFormattedDateString = (dateString = ''): boolean => {
@@ -57,7 +65,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                     disabled={disabled}
                     setFocusOnDateWhenOpened={true}
                     locale={locale}
-                    calendarSettings={{ showWeekNumbers }}
+                    calendarSettings={{ showWeekNumber }}
                     showYearSelector={showYearSelector}
                     calendarDateStringFilter={(value) => {
                         if (isValidFormattedDateString(value)) {
@@ -67,20 +75,19 @@ const DatepickerExample: React.FunctionComponent = () => {
                         return undefined;
                     }}
                     limitations={{
-                        weekendsNotSelectable: false,
+                        weekendsNotSelectable: true,
                         invalidDateRanges: [takenRange],
                         minDate: minDate.length > 0 ? minDate : undefined,
                         maxDate: maxDate.length > 0 ? maxDate : undefined,
-                        disabledDaysOfWeek: { daysOfWeek: [1, 2] },
+                        disabledDaysOfWeek: { dayOfWeek: [1, 2] },
                     }}
                     dayPickerProps={{
-                        initialMonth,
+                        defaultMonth,
                         modifiers: showPublicHolidays ? { isPublicHoliday } : undefined,
                         onMonthChange: (month) => {
                             console.log(month);
                         },
                     }}
-                    allowNavigationToDisabledMonths={allowNavigatingToDisabledMonths}
                     texts={{
                         calendarLabel: 'Vis datovelger',
                     }}
@@ -104,33 +111,33 @@ const DatepickerExample: React.FunctionComponent = () => {
                 </Box>
 
                 <Box margin="xl">
-                    Initial month: {initialMonth ? renderDate(dayjs(initialMonth).format('YYYY-MM-DD')) : undefined}
+                    Initial month: {defaultMonth ? renderDate(dayjs(defaultMonth).format('YYYY-MM-DD')) : undefined}
                 </Box>
                 <Box margin="m">
-                    <Button variant="secondary" size="small" onClick={() => setInitialMonth(new Date())}>
+                    <Button variant="secondary" size="small" onClick={() => setdefaultMonth(new Date())}>
                         Choose this month
                     </Button>
                     -
-                    <Button variant="secondary" size="small" onClick={() => setInitialMonth(undefined)}>
+                    <Button variant="secondary" size="small" onClick={() => setdefaultMonth(undefined)}>
                         Undefined
                     </Button>
                     -
-                    <Button variant="secondary" size="small" onClick={() => setInitialMonth(new Date(2020, 0, 1))}>
+                    <Button variant="secondary" size="small" onClick={() => setdefaultMonth(new Date(2020, 0, 1))}>
                         2020.01.01
                     </Button>
                 </Box>
 
-                <Box margin="xl">Locale: {locale}</Box>
+                <Box margin="xl">Locale: {locale.code}</Box>
                 <Box margin="m">
-                    <Button variant="secondary" size="small" onClick={() => setLocale('nb')}>
+                    <Button variant="secondary" size="small" onClick={() => setLocale(nb)}>
                         nb
                     </Button>
                     -
-                    <Button variant="secondary" size="small" onClick={() => setLocale('nn')}>
+                    <Button variant="secondary" size="small" onClick={() => setLocale(nn)}>
                         nn
                     </Button>
                     -
-                    <Button variant="secondary" size="small" onClick={() => setLocale('en')}>
+                    <Button variant="secondary" size="small" onClick={() => setLocale(en)}>
                         en
                     </Button>
                 </Box>
@@ -143,22 +150,24 @@ const DatepickerExample: React.FunctionComponent = () => {
                             inputName="date-range-from"
                             label="First pickable date"
                             onChange={(e) => setMinDate(e)}
+                            limitations={minMaxRange}
                             value={minDate}
+                            showYearSelector={true}
                         />
                     </div>
                     {' - '}
                     <div style={{ display: 'inline-block' }}>
                         <Datepicker
-                            // id={'date-range-to'}
                             size="small"
                             label="Last pickable date"
                             inputName="date-range-to"
                             onChange={(e) => setMaxDate(e)}
                             value={maxDate}
+                            limitations={minMaxRange}
+                            showYearSelector={true}
                         />
                     </div>
                 </Box>
-
                 <Box margin="xl">
                     <fieldset>
                         <legend>Other properties</legend>
@@ -186,12 +195,10 @@ const DatepickerExample: React.FunctionComponent = () => {
                                 </Checkbox>
                             </Box>
                             <Box margin="l">
-                                <Checkbox
-                                    checked={showWeekNumbers}
-                                    onChange={() => setShowWeekNumbers(!showWeekNumbers)}>
+                                <Checkbox checked={showWeekNumber} onChange={() => setshowWeekNumber(!showWeekNumber)}>
                                     <div>
                                         <div>
-                                            <code>calendarSettings.showWeekNumbers</code>
+                                            <code>calendarSettings.showWeekNumber</code>
                                         </div>
                                         Toggle visibility on week numbers in calendar view
                                     </div>
@@ -206,18 +213,6 @@ const DatepickerExample: React.FunctionComponent = () => {
                                             <code>Custom - show holiday</code>
                                         </div>
                                         Possibility to highlight special days
-                                    </div>
-                                </Checkbox>
-                            </Box>
-                            <Box margin={'l'}>
-                                <Checkbox
-                                    checked={allowNavigatingToDisabledMonths}
-                                    onChange={(event) => setAllowNavigatingToDisabledMonths(event.target.checked)}>
-                                    <div>
-                                        <div>
-                                            <code>allowNavigationToDisabledMonths</code>
-                                        </div>
-                                        Allow navigating outside restricted range
                                     </div>
                                 </Checkbox>
                             </Box>

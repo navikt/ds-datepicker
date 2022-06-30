@@ -4,7 +4,7 @@ import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { DayPickerProps } from 'react-day-picker';
 import { v4 as guid } from 'uuid';
 import DomEventContainer from './common/DomEventContainer';
-import Calendar from './calendar/Calendar';
+import Calendar, { CalendarDayPickerProps } from './calendar/Calendar';
 import DateInput from './DateInput';
 import DsFormFieldWrapper from './DsFormFieldWrapper';
 import CalendarButton from './elementer/CalendarButton';
@@ -13,6 +13,7 @@ import { usePrevious } from './hooks/usePrevious';
 import { CalendarPlacement, DatepickerLimitations, DatepickerLocales, ISODateString } from './types';
 import { isISODateString } from './types/typeGuards';
 import { getDefaultMonth, getInvalidDates, isSameDate } from './utils';
+import nb from 'date-fns/locale/nb';
 
 export type DatepickerValue = ISODateString | string;
 
@@ -51,7 +52,7 @@ export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 's
      * Visual settngs for the calendar
      */
     calendarSettings?: {
-        showWeekNumbers?: boolean;
+        showWeekNumber?: boolean;
         position?: CalendarPlacement;
     };
     /**
@@ -71,13 +72,9 @@ export interface DatepickerProps extends FormFieldProps, Pick<TextFieldProps, 's
      */
     allowInvalidDateSelection?: boolean;
     /**
-     * User can navigate to months outside valid date ranges
-     */
-    allowNavigationToDisabledMonths?: boolean;
-    /**
      * Expose react-day-picker props
      */
-    dayPickerProps?: Omit<DayPickerProps, 'disabledDays'>;
+    dayPickerProps?: CalendarDayPickerProps;
     /**
      * Function used when opening calendar. Can be used to see if the value is a valid date string
      */
@@ -107,12 +104,11 @@ const Datepicker = (props: DatepickerProps) => {
         inputProps,
         calendarSettings,
         allowInvalidDateSelection,
-        locale = 'nb',
+        locale = nb,
         showYearSelector,
         onChange,
         dayPickerProps,
         setFocusOnDateWhenOpened,
-        allowNavigationToDisabledMonths = false,
         texts,
         calendarDateStringFilter,
     } = props;
@@ -120,14 +116,14 @@ const Datepicker = (props: DatepickerProps) => {
     const [activeMonth, setActiveMonth] = useState<Date>(getDefaultMonth(value, limitations, dayPickerProps));
     const [calendarIsVisible, setCalendarIsVisible] = useState<boolean>(false);
     const prevValue = usePrevious(value);
-    const initialMonthPrevValue = usePrevious(dayPickerProps?.initialMonth);
+    const defaultMonthPrevValue = usePrevious(dayPickerProps?.defaultMonth);
 
     const calendarRef = useRef<any>();
 
     useEffect(() => {
-        const initialMonth = dayPickerProps?.initialMonth;
+        const defaultMonth = dayPickerProps?.defaultMonth;
         const dateStringToUse = calendarDateStringFilter ? calendarDateStringFilter(value) : value;
-        if (initialMonth !== initialMonthPrevValue && dateStringToUse === prevValue) {
+        if (defaultMonth !== defaultMonthPrevValue && dateStringToUse === prevValue) {
             const defaultMonth = getDefaultMonth(dateStringToUse, limitations, dayPickerProps);
             if (!isSameDate(defaultMonth, activeMonth)) {
                 setActiveMonth(defaultMonth);
@@ -139,7 +135,7 @@ const Datepicker = (props: DatepickerProps) => {
                 setActiveMonth(defaultMonth);
             }
         }
-    }, [value, limitations, prevValue, activeMonth, dayPickerProps, initialMonthPrevValue, calendarDateStringFilter]);
+    }, [value, limitations, prevValue, activeMonth, dayPickerProps, defaultMonthPrevValue, calendarDateStringFilter]);
 
     const setDate = (value = '') => {
         setCalendarIsVisible(false);
@@ -181,7 +177,7 @@ const Datepicker = (props: DatepickerProps) => {
                                 <Calendar
                                     ref={calendarRef}
                                     locale={locale}
-                                    showWeekNumbers={calendarSettings?.showWeekNumbers}
+                                    showWeekNumber={calendarSettings?.showWeekNumber}
                                     dateString={calendarDateStringFilter ? calendarDateStringFilter(value) : value}
                                     month={activeMonth}
                                     minDateString={limitations && limitations.minDate}
@@ -193,7 +189,6 @@ const Datepicker = (props: DatepickerProps) => {
                                     dayPickerProps={dayPickerProps}
                                     showYearSelector={showYearSelector}
                                     setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
-                                    allowNavigationToDisabledMonths={allowNavigationToDisabledMonths}
                                 />
                             </CalendarPortal>
                         )}
