@@ -4,12 +4,7 @@ import dayjs from 'dayjs';
 import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
 import { DatepickerDateRange, DatepickerLocales } from '../../datepicker/types';
 import { isISODateString } from '../../datepicker/types/typeGuards';
-import {
-    dateToISODateString,
-    InputDateStringToISODateString,
-    InputDateStringToUTCDate,
-    ISODateStringToUTCDate,
-} from '../../datepicker/utils/dateFormatUtils';
+import { dateToISODateString, ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
 import Box from '../components/box/Box';
 import { holidays } from '../utils/holidays';
 
@@ -151,7 +146,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                     </Button>
                 </Box>
 
-                {/* <Box margin="xl">Restrictions</Box>
+                <Box margin="xl">Restrictions</Box>
                 <Box margin="m">
                     <div style={{ display: 'inline-block' }}>
                         <Datepicker
@@ -176,7 +171,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                             showYearSelector={true}
                         />
                     </div>
-                </Box> */}
+                </Box>
                 <Box margin="xl">
                     <fieldset>
                         <legend>Other properties</legend>
