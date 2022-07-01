@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { InputDateString, INVALID_DATE_TYPE, ISODateString } from '../types';
+import { format } from 'date-fns';
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);
@@ -9,6 +10,7 @@ dayjs.extend(customParseFormat);
 export const INVALID_DATE_VALUE = 'Invalid date';
 export const INPUT_DATE_STRING_FORMAT: InputDateString = 'DD.MM.YYYY';
 export const ISO_DATE_STRING_FORMAT: ISODateString = 'YYYY-MM-DD';
+export const ISO_DATE_STRING_FORMAT_date_fns: ISODateString = 'yyyy-MM-dd';
 
 const ALLOWED_INPUT_FORMATS = [
     INPUT_DATE_STRING_FORMAT,
@@ -33,8 +35,9 @@ export const dateToInputDateString = (date?: Date): InputDateString | INVALID_DA
     date ? dayjs.utc(date).format(INPUT_DATE_STRING_FORMAT) : INVALID_DATE_VALUE;
 
 export const dateToISODateString = (date: Date): ISODateString | INVALID_DATE_TYPE => {
-    const d = dayjs(date);
-    return d.isValid() ? d.format(ISO_DATE_STRING_FORMAT) : d.toString();
+    const d = dayjs.utc(date);
+    /** bruker format fra date-fns her fordi format fra dayjs velger feil dato når en bruker format */
+    return d.isValid() ? format(d.toDate(), ISO_DATE_STRING_FORMAT_date_fns) : d.toString();
 };
 
 export const ISODateStringToUTCDate = (isoDateString?: ISODateString): Date | undefined => {
