@@ -33,7 +33,8 @@ export const dateToInputDateString = (date?: Date): InputDateString | INVALID_DA
     date ? dayjs.utc(date).format(INPUT_DATE_STRING_FORMAT) : INVALID_DATE_VALUE;
 
 export const dateToISODateString = (date: Date): ISODateString | INVALID_DATE_TYPE => {
-    const d = dayjs.utc(date);
+    // const d = dayjs.utc(date);
+    const d = dayjs(date);
     return d.isValid() ? d.format(ISO_DATE_STRING_FORMAT) : d.toString();
 };
 

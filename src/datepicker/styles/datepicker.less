@@ -1,25 +1,114 @@
 @import (less) 'react-day-picker/dist/style.css';
-@import '_dayPicker-overrides.less';
 @import '_variabler.less';
 @import '_mixins.less';
 
 :root {
     --rdp-cell-size: 40px;
-    --rdp-accent-color: red;
-    --rdp-background-color: #e7edff;
-    /* Switch to dark colors for dark themes */
-    --rdp-accent-color-dark: #3003e1;
-    --rdp-background-color-dark: #180270;
-    /* Outline border for focused elements */
-    --rdp-outline: 2px solid var(--rdp-accent-color);
-    /* Outline border for focused and selected elements */
-    --rdp-outline-selected: 2px solid rgba(0, 0, 0, 0.75);
+    --rdp-accent-color: #0067c5;
+    --rdp-background-color: white;
+    --rdp-outline: 1px solid #0067c5;
+    --rdp-outline-selected: 2px solid #0067c5;
 }
 
-.rdp {
-    &-day {
-        border-radius: 2px;
+.rdp-day {
+    border-radius: var(--navds-border-radius-medium);
+    &:focus,
+    &:active,
+    &:hover {
+        z-index: 5;
+        border: var(--rdp-outline);
+        border-radius: var(--navds-border-radius-medium);
+        box-shadow: 0 0 0 3px #00347d;
     }
+    &_disabled {
+        text-decoration: line-through;
+    }
+}
+.rdp-button {
+    border-radius: var(--navds-border-radius-small);
+    &:focus {
+        z-index: 5;
+        border-radius: var(--navds-border-radius-medium);
+        box-shadow: 0 0 0 1px #00347d;
+    }
+    &:active {
+        color: white;
+        background-color: var(--navds-button-color-primary-background-active) !important;
+    }
+}
+.rdp-dropdown {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--navds-select-color-background);
+    border-radius: var(--navds-border-radius-medium);
+    border: 1px solid var(--navds-select-color-border);
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0.5rem 2.5rem 0.5rem 0.5rem;
+    &_month {
+        margin-right: 0.5rem;
+    }
+    &:hover {
+        border-color: var(--navds-select-color-border-hover);
+        box-shadow: 0 0 0 3px #00347d;
+    }
+
+    &:focus {
+        z-index: 5;
+        outline: none;
+        box-shadow: 0 0 0 3px #00347d;
+    }
+}
+.rdp-button[aria-disabled='true'] {
+    opacity: 1;
+    pointer-events: none;
+    border-radius: var(--navds-border-radius-small);
+    background-color: var(--navds-global-color-gray-100);
+    &:focus {
+        z-index: 5;
+        border-radius: var(--navds-border-radius-medium);
+        box-shadow: 0 0 0 1px #00347d;
+    }
+}
+
+.rdp-caption_label {
+    padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+    box-sizing: border-box;
+    font-size: inherit;
+    text-transform: capitalize;
+}
+
+.rdp-caption_dropdowns {
+    .rdp-caption_label {
+        border-radius: var(--navds-border-radius-medium);
+        border: 1px solid var(--navds-select-color-border);
+    }
+}
+.rdp-dropdown:hover:not([disabled]) + .rdp-caption_label,
+.rdp-dropdown:focus:not([disabled]) + .rdp-caption_label,
+.rdp-dropdown:active:not([disabled]) + .rdp-caption_label {
+    border: var(--rdp-outline);
+    border-radius: var(--navds-border-radius-medium);
+    box-shadow: 0 0 0 3px #00347d;
+}
+
+.rdp-tbody {
+    .rdp-row {
+        .rdp-cell:last-child {
+            color: var(--navds-global-color-red-500);
+        }
+    }
+}
+
+.rdp-weeknumber {
+    border-right: 1px solid var(--navds-global-color-gray-200);
+    border-radius: 0;
+    position: relative;
+    padding-left: 0;
+    padding-right: 0.5rem;
+    font-size: 0.9rem;
+    font-style: italic;
 }
 
 @z-fullskjerm: 100;
@@ -54,7 +143,6 @@
         border: 0;
         white-space: nowrap;
     }
-
     &__inputContainer {
         display: inline-block;
         width: @input-width;
@@ -109,49 +197,6 @@
         width: 100%;
         padding-right: calc(2.5rem - 3px);
     }
-    &__navbar {
-        position: absolute;
-        left: 0.6rem;
-        right: 0.6rem;
-        top: 0.6rem;
-        &--withYearSelector {
-            top: 1.4rem;
-        }
-        &__yearSelector {
-            text-align: center;
-            width: 100%;
-            white-space: nowrap;
-        }
-        &__knapp {
-            padding: 0.5rem 0.5rem !important;
-            position: absolute;
-            border: none;
-            &[disabled] {
-                cursor: default;
-                opacity: 0;
-            }
-            &:not([disabled]) {
-                &:hover {
-                    .hoverOutline();
-                }
-                &:focus,
-                &:active {
-                    .focusOutline();
-                }
-            }
-            &--forrige,
-            &--previousMonth {
-                left: 0;
-            }
-            &--neste,
-            &--nextMonth {
-                right: 0;
-            }
-            svg {
-                display: block;
-            }
-        }
-    }
     &__calendarPortal {
         position: absolute;
         top: ~'calc(100% + 0.25rem)';
@@ -180,7 +225,6 @@
         overflow: hidden;
         background-color: white;
     }
-    .DayPicker();
     &__periode {
         display: flex;
         padding-right: 2.5rem;

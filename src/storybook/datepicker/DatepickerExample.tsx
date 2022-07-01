@@ -4,7 +4,12 @@ import dayjs from 'dayjs';
 import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
 import { DatepickerDateRange, DatepickerLocales } from '../../datepicker/types';
 import { isISODateString } from '../../datepicker/types/typeGuards';
-import { dateToISODateString, ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
+import {
+    dateToISODateString,
+    InputDateStringToISODateString,
+    InputDateStringToUTCDate,
+    ISODateStringToUTCDate,
+} from '../../datepicker/utils/dateFormatUtils';
 import Box from '../components/box/Box';
 import { holidays } from '../utils/holidays';
 
@@ -59,7 +64,11 @@ const DatepickerExample: React.FunctionComponent = () => {
                     id="datovelger-input"
                     label="Choose a date"
                     value={date}
-                    onChange={setDate}
+                    onChange={(d) => {
+                        console.log(d);
+                        console.log(ISODateStringToUTCDate(d));
+                        setDate(d);
+                    }}
                     inputName="dateInput"
                     error={isInvalid ? 'Invalid date' : undefined}
                     disabled={disabled}

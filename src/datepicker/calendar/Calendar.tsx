@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import FocusTrap from 'focus-trap-react';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { DayModifiers, DayPicker, DayPickerProps, Matcher } from 'react-day-picker';
@@ -9,7 +10,7 @@ import {
     setFocusOnLastElementInDayPickerCaption,
     setInitialDayFocus,
 } from '../utils/calendarFocusUtils';
-import { dateToISODateString, ISODateStringToUTCDate } from '../utils/dateFormatUtils';
+import { dateToISODateString, ISODateStringToUTCDate, ISO_DATE_STRING_FORMAT } from '../utils/dateFormatUtils';
 
 export type CalendarDayPickerProps = Omit<DayPickerProps, 'mode' | 'selected'>;
 
@@ -28,38 +29,11 @@ interface Props {
     showWeekNumber?: boolean;
     showYearSelector?: boolean;
     locale: DatepickerLocales;
-    dayPickerProps?: CalendarDayPickerProps;
+    // dayPickerProps?: CalendarDayPickerProps;
     setFocusOnDateWhenOpened?: boolean;
 }
 
 export type NavigationFocusElement = 'nextMonth' | 'previousMonth' | 'year' | 'month';
-
-const getCaptionLayout = (showYearSelector) => {
-    console.log(showYearSelector);
-
-    if (showYearSelector) {
-        console.log('returning dropdown');
-
-        return 'dropdown';
-    }
-    return 'buttons';
-};
-
-const css = `
-  .my-selected:not([disabled]) { 
-    font-weight: bold; 
-    border: 2px solid currentColor;
-  }
-  .my-selected:hover:not([disabled]) { 
-    border-color: blue;
-    color: blue;
-  }
-  .my-today { 
-    font-weight: bold;
-    font-size: 140%; 
-    color: red;
-  }
-`;
 
 const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref<HTMLDivElement>) {
     const [displayMonth, setDisplayMonth] = useState<Date>(props.month);
@@ -76,7 +50,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
         onClose,
         onSelect,
         setFocusOnDateWhenOpened,
-        dayPickerProps,
+        // dayPickerProps,
     } = props;
 
     const onSelectDate = (date: Date, modifiers: DayModifiers) => {
@@ -95,9 +69,9 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                 });
             }
         }
-        if (dayPickerProps?.onMonthChange) {
-            dayPickerProps?.onMonthChange(month);
-        }
+        // if (dayPickerProps?.onMonthChange) {
+        //     dayPickerProps?.onMonthChange(month);
+        // }
     };
 
     const calendarRef = useRef<any>();
@@ -146,9 +120,13 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                                 disabled={unavailableDates}
                                 month={displayMonth}
                                 locale={locale}
-                                captionLayout={getCaptionLayout(showYearSelector)}
+                                captionLayout={showYearSelector ? 'dropdown' : 'buttons'}
                                 showWeekNumber={showWeekNumber}
                                 weekStartsOn={1}
+                                labels={{
+                                    labelYearDropdown: () => 'År',
+                                    labelMonthDropdown: () => 'Måned',
+                                }}
                                 // {...dayPickerProps}
                             />
                         </div>

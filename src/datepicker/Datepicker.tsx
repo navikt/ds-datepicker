@@ -1,7 +1,6 @@
 import { TextFieldProps } from '@navikt/ds-react';
 import { FormFieldProps, useFormField } from '@navikt/ds-react/esm/form/useFormField';
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
-import { DayPickerProps } from 'react-day-picker';
 import { v4 as guid } from 'uuid';
 import DomEventContainer from './common/DomEventContainer';
 import Calendar, { CalendarDayPickerProps } from './calendar/Calendar';
@@ -186,7 +185,7 @@ const Datepicker = (props: DatepickerProps) => {
                                     onSelect={setDate}
                                     onClose={() => setCalendarIsVisible(false)}
                                     allowInvalidDateSelection={allowInvalidDateSelection}
-                                    dayPickerProps={dayPickerProps}
+                                    // dayPickerProps={dayPickerProps}
                                     showYearSelector={showYearSelector}
                                     setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
                                 />
