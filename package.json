@@ -22,12 +22,12 @@
         "url": "https://github.com/navikt/ds-datepicker/issues"
     },
     "dependencies": {
-        "@navikt/ds-css": "^0.18.x",
-        "@navikt/ds-react": "^0.19.x",
+        "@navikt/ds-css": "^0.18.24",
+        "@navikt/ds-react": "^0.19.18",
         "focus-trap-react": "^8.8.2"
     },
     "devDependencies": {
-        "@babel/core": "^7.18.5",
+        "@babel/core": "^7.18.6",
         "@navikt/fnrvalidator": "^1.3.0",
         "@storybook/addon-a11y": "^6.5.9",
         "@storybook/addon-actions": "^6.5.9",
@@ -41,22 +41,22 @@
         "@storybook/react": "^6.5.9",
         "@storybook/testing-library": "^0.0.13",
         "@testing-library/jest-dom": "^5.16.4",
-        "@testing-library/react": "^12.1.2",
+        "@testing-library/react": "^13.3.0",
         "@testing-library/user-event": "^14.2.1",
-        "@types/jest": "^28.1.3",
+        "@types/jest": "^28.1.4",
         "@types/node": "^18.0.0",
-        "@types/react": "^17.0.43",
-        "@types/react-dom": "^17.0.14",
-        "@typescript-eslint/eslint-plugin": "^5.29.0",
-        "@typescript-eslint/parser": "^5.29.0",
+        "@types/react": "^18.0.14",
+        "@types/react-dom": "^18.0.5",
+        "@typescript-eslint/eslint-plugin": "^5.30.0",
+        "@typescript-eslint/parser": "^5.30.0",
         "babel-loader": "^8.2.5",
         "classnames": "^2.3.1",
         "core-js": "^3.23.3",
-        "date-holidays": "^3.16.1",
+        "date-holidays": "^3.16.2",
         "dayjs": "^1.11.3",
         "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-prettier": "^4.1.0",
+        "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.30.1",
         "eslint-plugin-storybook": "^0.5.13",
         "gh-pages": "^4.0.0",
@@ -69,13 +69,13 @@
         "lodash.throttle": "^4.1.1",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.7.1",
-        "react": "^17.0.2",
+        "react": "^18.0.0",
         "react-collapse": "^5.1.1",
         "react-day-picker": "^8.0.7",
-        "react-dom": "^17.0.2",
+        "react-dom": "^18.2.0",
         "react-intl": "^6.0.4",
         "react-modal": "^3.15.1",
-        "react-router-dom": "^5.3.0",
+        "react-router-dom": "^6.3.0",
         "react-scripts": "^5.0.1",
         "rimraf": "^3.0.2",
         "ts-jest": "^28.0.5",
@@ -83,7 +83,7 @@
         "tslint-react": "^5.0.0",
         "typescript": "^4.7.4",
         "uuid": "^8.3.2",
-        "webpack": "5"
+        "webpack": "5.73.0"
     },
     "directories": {
         "lib": "lib"
@@ -98,7 +98,7 @@
         "classnames": "^2.3.x",
         "dayjs": "^1.11.x",
         "react": "17.x || 18.x",
-        "react-day-picker": "^7.4.x"
+        "react-day-picker": "^8.0.7"
     },
     "publishConfig": {
         "access": "public"
