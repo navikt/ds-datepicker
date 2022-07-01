@@ -35,9 +35,9 @@ export const dateToInputDateString = (date?: Date): InputDateString | INVALID_DA
 
 export const dateToISODateString = (date: Date): ISODateString | INVALID_DATE_TYPE => {
     const x = dayjs(date).format('YYYY-MM-DD');
-    console.log(dayjs.utc().toDate());
+    console.log(dayjs.utc(x).toDate());
     const d = dayjs(date);
-    return d.isValid() ? format(date, ISO_DATE_STRING_FORMAT) : d.toString();
+    return d.isValid() ? d.format(ISO_DATE_STRING_FORMAT) : d.toString();
 };
 
 export const ISODateStringToUTCDate = (isoDateString?: ISODateString): Date | undefined => {
