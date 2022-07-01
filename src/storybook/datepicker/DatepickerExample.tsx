@@ -65,8 +65,8 @@ const DatepickerExample: React.FunctionComponent = () => {
                     label="Choose a date"
                     value={date}
                     onChange={(d) => {
-                        console.log(d);
-                        console.log(ISODateStringToUTCDate(d));
+                        // console.log(d);
+                        // console.log(ISODateStringToUTCDate(d));
                         setDate(d);
                     }}
                     inputName="dateInput"
@@ -151,7 +151,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                     </Button>
                 </Box>
 
-                <Box margin="xl">Restrictions</Box>
+                {/* <Box margin="xl">Restrictions</Box>
                 <Box margin="m">
                     <div style={{ display: 'inline-block' }}>
                         <Datepicker
@@ -176,7 +176,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                             showYearSelector={true}
                         />
                     </div>
-                </Box>
+                </Box> */}
                 <Box margin="xl">
                     <fieldset>
                         <legend>Other properties</legend>
