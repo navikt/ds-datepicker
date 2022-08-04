@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import FocusTrap from 'focus-trap-react';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { DayModifiers, DayPicker, DayPickerProps, Matcher } from 'react-day-picker';
@@ -10,7 +9,7 @@ import {
     setFocusOnLastElementInDayPickerCaption,
     setInitialDayFocus,
 } from '../utils/calendarFocusUtils';
-import { dateToISODateString, ISODateStringToUTCDate, ISO_DATE_STRING_FORMAT } from '../utils/dateFormatUtils';
+import { dateToISODateString, ISODateStringToUTCDate } from '../utils/dateFormatUtils';
 
 export type CalendarDayPickerProps = Omit<DayPickerProps, 'mode' | 'selected'>;
 
@@ -29,7 +28,7 @@ interface Props {
     showWeekNumber?: boolean;
     showYearSelector?: boolean;
     locale: DatepickerLocales;
-    // dayPickerProps?: CalendarDayPickerProps;
+    dayPickerProps?: CalendarDayPickerProps;
     setFocusOnDateWhenOpened?: boolean;
 }
 
@@ -50,7 +49,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
         onClose,
         onSelect,
         setFocusOnDateWhenOpened,
-        // dayPickerProps,
+        dayPickerProps,
     } = props;
 
     const onSelectDate = (date: Date, modifiers: DayModifiers) => {
@@ -69,9 +68,9 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                 });
             }
         }
-        // if (dayPickerProps?.onMonthChange) {
-        //     dayPickerProps?.onMonthChange(month);
-        // }
+        if (dayPickerProps?.onMonthChange) {
+            dayPickerProps?.onMonthChange(month);
+        }
     };
 
     const calendarRef = useRef<any>();
@@ -127,7 +126,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                                     labelYearDropdown: () => 'År',
                                     labelMonthDropdown: () => 'Måned',
                                 }}
-                                // {...dayPickerProps}
+                                {...dayPickerProps}
                             />
                         </div>
                     </FocusTrap>
