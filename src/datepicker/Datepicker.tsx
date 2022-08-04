@@ -185,7 +185,7 @@ const Datepicker = (props: DatepickerProps) => {
                                     onSelect={setDate}
                                     onClose={() => setCalendarIsVisible(false)}
                                     allowInvalidDateSelection={allowInvalidDateSelection}
-                                    // dayPickerProps={dayPickerProps}
+                                    dayPickerProps={dayPickerProps}
                                     showYearSelector={showYearSelector}
                                     setFocusOnDateWhenOpened={setFocusOnDateWhenOpened}
                                 />

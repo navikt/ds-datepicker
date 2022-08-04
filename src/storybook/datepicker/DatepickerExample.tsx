@@ -1,5 +1,8 @@
 import { Button, Checkbox } from '@navikt/ds-react';
 import React, { useState } from 'react';
+import en from 'date-fns/locale/en-GB';
+import nb from 'date-fns/locale/nb';
+import nn from 'date-fns/locale/nn';
 import dayjs from 'dayjs';
 import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
 import { DatepickerDateRange, DatepickerLocales } from '../../datepicker/types';
@@ -7,10 +10,6 @@ import { isISODateString } from '../../datepicker/types/typeGuards';
 import { dateToISODateString, ISODateStringToUTCDate } from '../../datepicker/utils/dateFormatUtils';
 import Box from '../components/box/Box';
 import { holidays } from '../utils/holidays';
-
-import nb from 'date-fns/locale/nb';
-import nn from 'date-fns/locale/nn';
-import en from 'date-fns/locale/en-GB';
 
 const renderDate = (dateString = ''): string => {
     if (dateString === '') {
@@ -20,9 +19,7 @@ const renderDate = (dateString = ''): string => {
     return date ? dayjs(date).format('DD.MM.YYYY') : 'invalid date';
 };
 
-const isPublicHoliday = (d: Date): boolean => {
-    return holidays.some((d2) => dayjs(d2.date).isSame(d, 'day'));
-};
+const isPublicHoliday = (d: Date): boolean => holidays.some((d2) => dayjs(d2.date).isSame(d, 'day'));
 
 const minMaxRange = {
     maxDate: dateToISODateString(dayjs().add(2, 'year').toDate()),
@@ -37,6 +34,8 @@ const DatepickerExample: React.FunctionComponent = () => {
     const [showPublicHolidays, setShowPublicHolidays] = useState<boolean>(true);
     const [defaultMonth, setdefaultMonth] = useState<Date | undefined>();
     const [locale, setLocale] = useState<DatepickerLocales>(nb);
+    const [disabledDaysOfWeek, setDisabledDaysOfWeek] = useState<number[]>([]);
+    const [disableWeekend, setDisableWeekend] = useState<boolean>(true);
 
     const [minDate, setMinDate] = useState<DatepickerValue>(minMaxRange.minDate);
     const [maxDate, setMaxDate] = useState<DatepickerValue>(minMaxRange.maxDate);
@@ -50,6 +49,14 @@ const DatepickerExample: React.FunctionComponent = () => {
         return /\d{1,2}.\d{1,2}.(\d{2}|\d{4})$/.test(dateString);
     };
 
+    const updateDisabledDaysOfWeek = (dayOfWeek: number, disabled: boolean) => {
+        const weekdays = disabledDaysOfWeek.filter((d) => d !== dayOfWeek);
+        if (disabled) {
+            weekdays.push(dayOfWeek);
+        }
+        setDisabledDaysOfWeek(weekdays);
+    };
+
     const isInvalid = date !== '' && isISODateString(date) === false;
 
     return (
@@ -60,8 +67,6 @@ const DatepickerExample: React.FunctionComponent = () => {
                     label="Choose a date"
                     value={date}
                     onChange={(d) => {
-                        // console.log(d);
-                        // console.log(ISODateStringToUTCDate(d));
                         setDate(d);
                     }}
                     inputName="dateInput"
@@ -79,18 +84,16 @@ const DatepickerExample: React.FunctionComponent = () => {
                         return undefined;
                     }}
                     limitations={{
-                        weekendsNotSelectable: true,
+                        weekendsNotSelectable: disableWeekend,
                         invalidDateRanges: [takenRange],
                         minDate: minDate.length > 0 ? minDate : undefined,
                         maxDate: maxDate.length > 0 ? maxDate : undefined,
-                        disabledDaysOfWeek: { dayOfWeek: [1, 2] },
+                        disabledDaysOfWeek: { dayOfWeek: disabledDaysOfWeek },
                     }}
                     dayPickerProps={{
                         defaultMonth,
                         modifiers: showPublicHolidays ? { isPublicHoliday } : undefined,
-                        onMonthChange: (month) => {
-                            console.log(month);
-                        },
+                        modifiersClassNames: { isPublicHoliday: 'rdp-day_publicHoliday' },
                     }}
                     texts={{
                         calendarLabel: 'Vis datovelger',
@@ -171,6 +174,54 @@ const DatepickerExample: React.FunctionComponent = () => {
                             showYearSelector={true}
                         />
                     </div>
+                </Box>
+                <Box margin="xl">
+                    <fieldset>
+                        <legend>Disabled weekends</legend>
+                        <Checkbox checked={disableWeekend} onChange={(evt) => setDisableWeekend(evt.target.checked)}>
+                            Disable weekend
+                        </Checkbox>
+                    </fieldset>
+                </Box>
+                <Box margin="xl">
+                    <fieldset>
+                        <legend>Disabled weekdays</legend>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(1)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(1, evt.target.checked)}>
+                            Monday
+                        </Checkbox>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(2)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(2, evt.target.checked)}>
+                            Tuesday
+                        </Checkbox>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(3)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(3, evt.target.checked)}>
+                            Wednesday
+                        </Checkbox>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(4)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(4, evt.target.checked)}>
+                            Thursday
+                        </Checkbox>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(5)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(5, evt.target.checked)}>
+                            Friday
+                        </Checkbox>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(6)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(6, evt.target.checked)}>
+                            Saturday
+                        </Checkbox>
+                        <Checkbox
+                            checked={disabledDaysOfWeek.includes(7)}
+                            onChange={(evt) => updateDisabledDaysOfWeek(7, evt.target.checked)}>
+                            Sunday
+                        </Checkbox>
+                    </fieldset>
                 </Box>
                 <Box margin="xl">
                     <fieldset>
