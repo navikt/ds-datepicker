@@ -37,7 +37,7 @@ const getDateFnsLocaleFromLocale = (locale: DatepickerLocales = 'nb') => {
     switch (locale) {
         case 'nn':
             return nn;
-        case 'en-GB':
+        case 'en':
             return enGB;
         default:
             return nb;

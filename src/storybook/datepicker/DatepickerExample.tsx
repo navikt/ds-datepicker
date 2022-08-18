@@ -1,8 +1,5 @@
 import { Button, Checkbox } from '@navikt/ds-react';
 import React, { useState } from 'react';
-import en from 'date-fns/locale/en-GB';
-import nb from 'date-fns/locale/nb';
-import nn from 'date-fns/locale/nn';
 import dayjs from 'dayjs';
 import Datepicker, { DatepickerValue } from '../../datepicker/Datepicker';
 import { DatepickerDateRange, DatepickerLocales } from '../../datepicker/types';
@@ -33,7 +30,7 @@ const DatepickerExample: React.FunctionComponent = () => {
     const [disabled, setDisabled] = useState<boolean>(false);
     const [showPublicHolidays, setShowPublicHolidays] = useState<boolean>(true);
     const [defaultMonth, setdefaultMonth] = useState<Date | undefined>();
-    const [locale, setLocale] = useState<Locale>(nb);
+    const [locale, setLocale] = useState<DatepickerLocales>('nb');
     const [disabledDaysOfWeek, setDisabledDaysOfWeek] = useState<number[]>([]);
     const [disableWeekend, setDisableWeekend] = useState<boolean>(true);
 
@@ -73,7 +70,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                     error={isInvalid ? 'Invalid date' : undefined}
                     disabled={disabled}
                     setFocusOnDateWhenOpened={true}
-                    locale={locale.code as DatepickerLocales}
+                    locale={locale}
                     calendarSettings={{ showWeekNumber }}
                     showYearSelector={showYearSelector}
                     calendarDateStringFilter={(value) => {
@@ -136,15 +133,15 @@ const DatepickerExample: React.FunctionComponent = () => {
 
                 <Box margin="xl">Locale: {locale.code}</Box>
                 <Box margin="m">
-                    <Button variant="secondary" size="small" onClick={() => setLocale(nb)}>
+                    <Button variant="secondary" size="small" onClick={() => setLocale('nb')}>
                         nb
                     </Button>
                     -
-                    <Button variant="secondary" size="small" onClick={() => setLocale(nn)}>
+                    <Button variant="secondary" size="small" onClick={() => setLocale('nn')}>
                         nn
                     </Button>
                     -
-                    <Button variant="secondary" size="small" onClick={() => setLocale(en)}>
+                    <Button variant="secondary" size="small" onClick={() => setLocale('en')}>
                         en
                     </Button>
                 </Box>

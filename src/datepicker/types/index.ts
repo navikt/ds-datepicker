@@ -22,7 +22,7 @@ export interface DatepickerLimitations {
     disabledDaysOfWeek?: DayOfWeek;
 }
 
-export type DatepickerLocales = 'nb' | 'nn' | 'en-GB';
+export type DatepickerLocales = 'nb' | 'nn' | 'en';
 
 export type CalendarPlacement = 'under' | 'fullscreen' | '' | 'responsive';
 
