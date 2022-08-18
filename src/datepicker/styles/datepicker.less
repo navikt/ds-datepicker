@@ -2,6 +2,7 @@
 @import '_variabler.less';
 @import '_mixins.less';
 
+.rdp,
 :root {
     --rdp-cell-size: 40px;
     --rdp-accent-color: #0067c5;
@@ -16,7 +17,7 @@
     &:active,
     &:hover {
         z-index: 5;
-        border: var(--rdp-outline);
+        border: 1px solid var(--rdp-outline);
         border-radius: var(--navds-border-radius-medium);
         box-shadow: 0 0 0 3px #00347d;
     }
@@ -38,6 +39,16 @@
     &:active {
         color: white;
         background-color: var(--navds-button-color-primary-background-active) !important;
+    }
+    &:hover {
+        border: var(--rdp-outline);
+        color: inherit;
+        box-shadow: 0 0 0 1px #00347d;
+    }
+    &[disabled] {
+        border: none;
+        outline: none;
+        box-shadow: none;
     }
 }
 .rdp-dropdown {

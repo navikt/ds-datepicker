@@ -13,9 +13,6 @@ import { dateToISODateString, ISODateStringToUTCDate } from '../utils/dateFormat
 
 export type CalendarDayPickerProps = Omit<DayPickerProps, 'mode' | 'selected'>;
 
-require('dayjs/locale/nb.js');
-require('dayjs/locale/nn.js');
-
 interface Props {
     month: Date;
     dateString?: ISODateString;
