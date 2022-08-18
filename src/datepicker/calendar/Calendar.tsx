@@ -1,6 +1,9 @@
 import FocusTrap from 'focus-trap-react';
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { DayModifiers, DayPicker, DayPickerProps, Matcher } from 'react-day-picker';
+import enGB from 'date-fns/locale/en-GB';
+import nb from 'date-fns/locale/nb';
+import nn from 'date-fns/locale/nn';
 import DomEventContainer from '../common/DomEventContainer';
 import { DatepickerLocales, ISODateString } from '../types';
 import {
@@ -12,7 +15,6 @@ import {
 import { dateToISODateString, ISODateStringToUTCDate } from '../utils/dateFormatUtils';
 
 export type CalendarDayPickerProps = Omit<DayPickerProps, 'mode' | 'selected'>;
-
 interface Props {
     month: Date;
     dateString?: ISODateString;
@@ -30,6 +32,17 @@ interface Props {
 }
 
 export type NavigationFocusElement = 'nextMonth' | 'previousMonth' | 'year' | 'month';
+
+const getDateFnsLocaleFromLocale = (locale: DatepickerLocales = 'nb') => {
+    switch (locale) {
+        case 'nn':
+            return nn;
+        case 'en-GB':
+            return enGB;
+        default:
+            return nb;
+    }
+};
 
 const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref<HTMLDivElement>) {
     const [displayMonth, setDisplayMonth] = useState<Date>(props.month);
@@ -115,7 +128,7 @@ const Calendar = React.forwardRef(function Calendar(props: Props, ref: React.Ref
                                 onMonthChange={onChangeMonth}
                                 disabled={unavailableDates}
                                 month={displayMonth}
-                                locale={locale}
+                                locale={getDateFnsLocaleFromLocale(locale)}
                                 captionLayout={showYearSelector ? 'dropdown' : 'buttons'}
                                 showWeekNumber={showWeekNumber}
                                 weekStartsOn={1}

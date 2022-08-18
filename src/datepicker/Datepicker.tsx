@@ -12,7 +12,6 @@ import { usePrevious } from './hooks/usePrevious';
 import { CalendarPlacement, DatepickerLimitations, DatepickerLocales, ISODateString } from './types';
 import { isISODateString } from './types/typeGuards';
 import { getDefaultMonth, getInvalidDates, isSameDate } from './utils';
-import nb from 'date-fns/locale/nb';
 
 export type DatepickerValue = ISODateString | string;
 
@@ -103,7 +102,7 @@ const Datepicker = (props: DatepickerProps) => {
         inputProps,
         calendarSettings,
         allowInvalidDateSelection,
-        locale = nb,
+        locale = 'nb',
         showYearSelector,
         onChange,
         dayPickerProps,

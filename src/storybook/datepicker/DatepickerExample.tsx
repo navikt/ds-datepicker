@@ -33,7 +33,7 @@ const DatepickerExample: React.FunctionComponent = () => {
     const [disabled, setDisabled] = useState<boolean>(false);
     const [showPublicHolidays, setShowPublicHolidays] = useState<boolean>(true);
     const [defaultMonth, setdefaultMonth] = useState<Date | undefined>();
-    const [locale, setLocale] = useState<DatepickerLocales>(nb);
+    const [locale, setLocale] = useState<Locale>(nb);
     const [disabledDaysOfWeek, setDisabledDaysOfWeek] = useState<number[]>([]);
     const [disableWeekend, setDisableWeekend] = useState<boolean>(true);
 
@@ -73,7 +73,7 @@ const DatepickerExample: React.FunctionComponent = () => {
                     error={isInvalid ? 'Invalid date' : undefined}
                     disabled={disabled}
                     setFocusOnDateWhenOpened={true}
-                    locale={locale}
+                    locale={locale.code as DatepickerLocales}
                     calendarSettings={{ showWeekNumber }}
                     showYearSelector={showYearSelector}
                     calendarDateStringFilter={(value) => {

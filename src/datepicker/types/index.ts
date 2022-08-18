@@ -1,5 +1,4 @@
 import { DayOfWeek } from 'react-day-picker';
-import { Locale } from 'date-fns';
 
 /** YYYY-MM-DD */
 export type ISODateString = string;
@@ -23,7 +22,7 @@ export interface DatepickerLimitations {
     disabledDaysOfWeek?: DayOfWeek;
 }
 
-export type DatepickerLocales = Locale;
+export type DatepickerLocales = 'nb' | 'nn' | 'en-GB';
 
 export type CalendarPlacement = 'under' | 'fullscreen' | '' | 'responsive';
 
