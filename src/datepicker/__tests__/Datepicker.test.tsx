@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import Datepicker from '../Datepicker';
 
-const initialMonth = new Date(2020, 5, 1);
+const defaultMonth = new Date(2020, 5, 1);
 
 jest.mock('@navikt/ds-react/esm/form/useFormField', () => ({
     useFormField: () => ({
@@ -32,7 +32,7 @@ describe('Datepicker', () => {
                     inputName="dsf"
                     onChange={onDateChangeMock}
                     inputProps={{ ['data-testid']: testId }}
-                    dayPickerProps={{ initialMonth }}
+                    dayPickerProps={{ defaultMonth }}
                     error={errorMsg}
                 />
             </div>
