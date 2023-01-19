@@ -75,6 +75,7 @@
         box-shadow: 0 0 0 3px #00347d;
     }
 }
+
 .rdp-button[aria-disabled='true'] {
     opacity: 1;
     pointer-events: none;
@@ -103,7 +104,7 @@
 .rdp-dropdown:hover:not([disabled]) + .rdp-caption_label,
 .rdp-dropdown:focus:not([disabled]) + .rdp-caption_label,
 .rdp-dropdown:active:not([disabled]) + .rdp-caption_label {
-    border: var(--rdp-outline);
+    border: none !important;
     border-radius: var(--navds-border-radius-medium);
     box-shadow: 0 0 0 3px #00347d;
 }
