@@ -22,8 +22,9 @@
         "url": "https://github.com/navikt/ds-datepicker/issues"
     },
     "dependencies": {
-        "@navikt/ds-css": "^2.0.17",
-        "@navikt/ds-react": "^2.0.17",
+        "@navikt/ds-css": "1.x",
+        "@navikt/ds-react": "1.x",
+        "clsx": "^1.2.1",
         "focus-trap-react": "^10.0.2"
     },
     "devDependencies": {
@@ -97,8 +98,8 @@
         "@navikt/ds-css": "1.x",
         "@navikt/ds-react": "1.x",
         "classnames": "^2.3.x",
-        "dayjs": "^1.x",
         "date-fns": "^2.x",
+        "dayjs": "^1.x",
         "react": "18.x",
         "react-day-picker": "^8.x"
     },
