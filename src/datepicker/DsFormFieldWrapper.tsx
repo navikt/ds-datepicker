@@ -1,5 +1,6 @@
 import { BodyShort, Detail, ErrorMessage, Label, TextFieldProps } from '@navikt/ds-react';
-import { FormFieldProps, useFormField } from '@navikt/ds-react/esm/form/useFormField';
+import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
+import { useFormField } from '@navikt/ds-react/cjs/form/useFormField';
 import React from 'react';
 import classnames from 'classnames';
 

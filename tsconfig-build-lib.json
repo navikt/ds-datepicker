@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "module": "ESNext",
-        "target": "ESNext",
+        "module": "commonjs",
+        "target": "es5",
         "outDir": "./lib",
-        "lib": ["ESNext", "DOM", "DOM.Iterable"],
+        "lib": ["es6", "dom", "es2017"],
         "allowJs": false,
         "skipLibCheck": true,
         "esModuleInterop": true,

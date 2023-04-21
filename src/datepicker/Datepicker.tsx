@@ -1,5 +1,6 @@
 import { TextFieldProps } from '@navikt/ds-react';
-import { FormFieldProps, useFormField } from '@navikt/ds-react/esm/form/useFormField';
+import { FormFieldProps } from '@navikt/ds-react/esm/form/useFormField';
+import { useFormField } from '@navikt/ds-react/cjs/form/useFormField';
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { v4 as guid } from 'uuid';
 import DomEventContainer from './common/DomEventContainer';
