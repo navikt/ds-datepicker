@@ -4,7 +4,7 @@ import Datepicker from '../Datepicker';
 
 const defaultMonth = new Date(2020, 5, 1);
 
-jest.mock('@navikt/ds-react/esm/form/useFormField', () => ({
+jest.mock('@navikt/ds-react/cjs/form/useFormField', () => ({
     useFormField: () => ({
         showErrorMsg: true,
         hasError: true,
