@@ -5,7 +5,7 @@
     "main": "lib/index.js",
     "name": "@navikt/ds-datepicker",
     "types": "lib/index.d.ts",
-    "version": "4.1.6",
+    "version": "4.1.7",
     "browserslist": {
         "development": [
             "last 1 chrome version",
@@ -101,7 +101,8 @@
         "date-fns": "^2.x",
         "dayjs": "^1.x",
         "react": "18.x",
-        "react-day-picker": "^8.x"
+        "react-day-picker": "^8.x",
+        "uuid": "9"
     },
     "publishConfig": {
         "access": "public"
