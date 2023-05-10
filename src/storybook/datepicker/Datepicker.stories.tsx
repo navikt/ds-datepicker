@@ -1,5 +1,4 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import React from 'react';
+import { Meta, StoryFn } from '@storybook/react';
 import StoryDecorator from '../decorator/StoryDecorator';
 import DatepickerExample from './DatepickerExample';
 
@@ -13,8 +12,8 @@ export default {
             </StoryDecorator>
         ),
     ],
-} as ComponentMeta<typeof DatepickerExample>;
+} as Meta<typeof DatepickerExample>;
 
-const Template: ComponentStory<typeof DatepickerExample> = () => <DatepickerExample />;
+const Template: StoryFn<typeof DatepickerExample> = () => <DatepickerExample />;
 
 export const Default = Template.bind({});

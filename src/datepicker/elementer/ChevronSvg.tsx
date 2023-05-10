@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type ChevronRetning = 'opp' | 'ned' | 'høyre' | 'venstre';
 
 export interface Props {
