@@ -1,32 +1,32 @@
 module.exports = {
     parser: '@typescript-eslint/parser',
-    // Specifies the ESLint parser
     extends: [
         'plugin:react/recommended',
         'plugin:@typescript-eslint/recommended',
-        'prettier',
         'plugin:prettier/recommended',
         'plugin:jsx-a11y/recommended',
-        'plugin:storybook/recommended',
     ],
     parserOptions: {
         ecmaFeatures: {
-            jsx: true, // Allows for the parsing of JSX
+            jsx: true,
         },
     },
     rules: {
-        // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-        '@typescript-eslint/explicit-function-return-type': 'off',
-        '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/no-var-requires': 'off',
-        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/explicit-function-return-type': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0,
+        '@typescript-eslint/no-var-requires': 0,
+        '@typescript-eslint/no-explicit-any': 0,
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
+        'react/react-in-jsx-scope': 0,
+        'react/jsx-uses-react': 0,
+        'no-console': 'error',
     },
     plugins: ['jsx-a11y', 'react-hooks'],
     settings: {
         react: {
-            version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
+            version: 'detect',
         },
     },
+    ignorePatterns: ['node_modules', 'dist', 'lib', '.turbo'],
 };

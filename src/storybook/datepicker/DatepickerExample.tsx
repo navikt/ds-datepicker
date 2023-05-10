@@ -131,7 +131,6 @@ const DatepickerExample: React.FunctionComponent = () => {
                     </Button>
                 </Box>
 
-                <Box margin="xl">Locale: {locale.code}</Box>
                 <Box margin="m">
                     <Button variant="secondary" size="small" onClick={() => setLocale('nb')}>
                         nb
