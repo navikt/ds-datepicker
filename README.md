@@ -1,3 +1,6 @@
+# Denne er ikke lenger vedlikehold. Bruk heller DatePicker som kommer fra Aksel.
+https://aksel.nav.no/komponenter/core/datepicker
+
 # @navikt/ds-datepicker
 
 Simple datepicker basert på react-day-picker
